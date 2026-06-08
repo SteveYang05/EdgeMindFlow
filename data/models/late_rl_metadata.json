@@ -1,0 +1,18 @@
+{
+  "model_type": "sklearn_fitted_q",
+  "method": "LATE-RL",
+  "episodes": 3,
+  "episode_length": 20,
+  "avg_reward_last_10": 21.1362,
+  "best_avg_reward": 25.4529,
+  "epsilon_final": 0.9851,
+  "state_dim": 38,
+  "action_space": [
+    "local",
+    "edge",
+    "cloud"
+  ],
+  "created_at": "2026-05-22T09:40:39.419529Z",
+  "fallback_enabled": true,
+  "random_seed": 42
+}

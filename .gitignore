@@ -1,0 +1,24 @@
+node_modules/
+.npm-cache/
+frontend/.npm-cache/
+frontend/node_modules/
+data/images2/
+
+# 大文件暂不推 GitHub，后续可放 Hugging Face
+data/images/*.png
+data/models/*.pkl
+data/models/rl_candidates/*.pkl
+
+logs/*.log
+logs/pids/
+backups/
+!backups/.gitkeep
+results/*.csv
+results/*.json
+results/*.md
+!results/.gitkeep
+data/*.db
+__pycache__/
+*.pyc
+.env
+.DS_Store

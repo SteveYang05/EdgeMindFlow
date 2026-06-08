@@ -1,0 +1,32 @@
+{
+  "datasets": {
+    "mec_edge": {
+      "name": "mec_edge",
+      "display_name": "Mobile Edge Computing Trace (MEC)",
+      "path": "./data/traces/mec_edge/mec_edge_tasks.csv",
+      "auto_download": true,
+      "status": "ready",
+      "source": "remote",
+      "url": "https://raw.githubusercontent.com/nicsdee/Mobile-Edge-Computing-Dataset/main/mobile_edge_dataset.csv",
+      "size_bytes": 106891,
+      "rows": 1200,
+      "converter": "mobile_edge_dataset",
+      "remote_repo": "nicsdee/Mobile-Edge-Computing-Dataset"
+    },
+    "eua": {
+      "name": "eua",
+      "display_name": "EUA Dataset (Edge User Allocation)",
+      "path": "./data/traces/eua/eua_users.csv",
+      "auto_download": true,
+      "status": "ready",
+      "source": "remote",
+      "url": "https://raw.githubusercontent.com/PhuLai/eua-dataset/master/users/users-melbcbd-generated.csv",
+      "secondary_url": "https://raw.githubusercontent.com/PhuLai/eua-dataset/master/edge-servers/site-optus-melbCBD.csv",
+      "size_bytes": 47337,
+      "rows": 816,
+      "converter": "phulai_eua_dataset",
+      "remote_repo": "PhuLai/eua-dataset"
+    }
+  },
+  "updated_at": "2026-05-22T15:23:52.968007Z"
+}

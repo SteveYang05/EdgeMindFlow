@@ -1,0 +1,22 @@
+{
+  "model_type": "sklearn_fitted_q",
+  "method": "LATE-RL",
+  "candidate_name": "ep20_len100",
+  "reward_profile": "default",
+  "episodes": 20,
+  "episode_length": 100,
+  "avg_reward_last_10": 102.3379,
+  "best_avg_reward": 126.6199,
+  "epsilon_final": 0.9046,
+  "state_dim": 38,
+  "action_space": [
+    "local",
+    "edge",
+    "cloud"
+  ],
+  "created_at": "2026-05-22T08:27:51.824325Z",
+  "fallback_enabled": true,
+  "random_seed": 42,
+  "is_candidate": true,
+  "model_path": "./data/models/rl_candidates/late_rl_candidate_ep20_len100.pkl"
+}
