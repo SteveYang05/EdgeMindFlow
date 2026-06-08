@@ -24,10 +24,6 @@ Tool Layer → LATE Framework → Edge / Cloud Execution
 React Dashboard + SQLite Metrics
 ```
 
-## 大文件说明
-
-本仓库**不含** Dashboard 配图（`data/images/*.png`）与预训练权重（`data/models/*.pkl`），以减小克隆体积。本地完整运行需自备这些文件，或执行训练脚本生成权重。后续将通过 **Hugging Face** 提供下载。
-
 ## 快速开始
 
 ### 环境

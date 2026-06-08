@@ -4,11 +4,6 @@ frontend/.npm-cache/
 frontend/node_modules/
 data/images2/
 
-# 大文件暂不推 GitHub，后续可放 Hugging Face
-data/images/*.png
-data/models/*.pkl
-data/models/rl_candidates/*.pkl
-
 logs/*.log
 logs/pids/
 backups/
