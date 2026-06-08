@@ -1,4 +1,4 @@
-"""边缘节点指标采集与模拟。"""
+"""Edge node metrics collection and simulation."""
 import random
 import time
 from typing import Dict
@@ -9,7 +9,7 @@ from backend.common.schemas import NodeMetrics, Scenario
 
 
 class EdgeMetricsCollector:
-    """边缘节点指标采集器，结合真实 psutil 与场景模拟。"""
+    """Edge node metrics collector combining real psutil and scenario simulation."""
 
     def __init__(self):
         self.scenario = Scenario.NORMAL.value
@@ -32,7 +32,7 @@ class EdgeMetricsCollector:
         }
 
     def set_scenario(self, scenario: str) -> None:
-        """切换实验场景。"""
+        """Switch experiment scenario."""
         self.scenario = scenario
         if scenario == Scenario.NORMAL.value:
             self.simulated_cpu = 0.3
@@ -55,7 +55,7 @@ class EdgeMetricsCollector:
             self.network_delay_ms = 40.0
 
     def get_cpu_load(self) -> float:
-        """获取 CPU 负载 (0~1)，结合真实值与模拟值。"""
+        """Get CPU load (0~1), combining real and simulated values."""
         try:
             real = psutil.cpu_percent(interval=0.1) / 100.0
         except Exception:
@@ -64,7 +64,7 @@ class EdgeMetricsCollector:
         return min(max(real * 0.3 + simulated * 0.7, 0.05), 0.99)
 
     def get_memory_load(self) -> float:
-        """获取内存负载。"""
+        """Get memory load."""
         try:
             real = psutil.virtual_memory().percent / 100.0
         except Exception:
@@ -80,7 +80,7 @@ class EdgeMetricsCollector:
         self.queue_depth = max(0, self.queue_depth - 1)
 
     def record_strategy_latency(self, strategy: str, latency_ms: float) -> None:
-        """记录策略下的时延用于对比。"""
+        """Record per-strategy latency for comparison."""
         if strategy in self._strategy_stats:
             stats = self._strategy_stats[strategy]
             stats["latencies"].append(latency_ms)
@@ -89,7 +89,7 @@ class EdgeMetricsCollector:
                 stats["latencies"] = stats["latencies"][-200:]
 
     def get_strategy_comparison(self) -> Dict:
-        """获取七种策略的对比数据。"""
+        """Get comparison data for all seven strategies."""
         result = {}
         for name, stats in self._strategy_stats.items():
             lats = stats["latencies"]
@@ -107,7 +107,7 @@ class EdgeMetricsCollector:
         return result
 
     def get_node_metrics(self) -> NodeMetrics:
-        """返回当前节点指标。"""
+        """Return current node metrics."""
         cpu = self.get_cpu_load()
         mem = self.get_memory_load()
         status = "healthy"
@@ -133,7 +133,7 @@ class EdgeMetricsCollector:
         return self.get_cpu_load() > 0.85 or self.scenario == Scenario.EDGE_OVERLOAD.value
 
     def reset_strategy_stats(self) -> None:
-        """重置内存中的策略对比统计。"""
+        """Reset in-memory strategy comparison stats."""
         self._strategy_stats = {
             "local_only": {"latencies": [], "count": 0},
             "cloud_only": {"latencies": [], "count": 0},

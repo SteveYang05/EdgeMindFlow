@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""LATE-Learn 轻量消融实验 — 对比 full / no_trace / no_scenario / task_only。"""
+"""LATE-Learn lightweight ablation — compare full / no_trace / no_scenario / task_only."""
 import csv
 import os
 import sys
@@ -26,7 +26,7 @@ def _write_md(rows: list, path: Path) -> None:
     lines = [
         "# LATE-Learn Ablation Study",
         "",
-        f"生成时间: {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC",
+        f"Generated: {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC",
         "",
         "| variant | accuracy | macro_f1 | oracle_agreement | avg_regret | feature_count |",
         "|---------|----------|----------|------------------|------------|---------------|",
@@ -38,14 +38,14 @@ def _write_md(rows: list, path: Path) -> None:
         )
     lines += [
         "",
-        "## 说明",
+        "## Notes",
         "",
         "- **full**: task + network + load + scenario + trace-derived features",
-        "- **no_trace**: 去掉 edge_proximity_score / request_burst_factor",
-        "- **no_scenario**: 去掉 scenario_enc",
-        "- **task_only**: 仅 task 特征",
+        "- **no_trace**: remove edge_proximity_score / request_burst_factor",
+        "- **no_scenario**: remove scenario_enc",
+        "- **task_only**: task features only",
         "",
-        "Ablation 用于验证 trace features 与 scenario features 对 oracle labeling 学习的作用。",
+        "Ablation validates the role of trace and scenario features in oracle labeling learning.",
     ]
     path.write_text("\n".join(lines), encoding="utf-8")
 

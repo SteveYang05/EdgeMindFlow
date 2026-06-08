@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""LATE-RL 候选训练扫描 — 不覆盖主模型。"""
+"""LATE-RL candidate training sweep — does not overwrite main model."""
 import argparse
 import logging
 import os

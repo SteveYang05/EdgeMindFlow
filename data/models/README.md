@@ -1,10 +1,10 @@
-# 预训练权重
+# Pretrained Weights
 
-- `late_learn.pkl` — LATE-Learn 模型
-- `late_rl.pkl` — LATE-RL 主模型
-- `rl_candidates/` — RL 训练候选 checkpoint
+- `late_learn.pkl` — LATE-Learn model
+- `late_rl.pkl` — LATE-RL primary model
+- `rl_candidates/` — RL training candidate checkpoints
 
-也可本地重新训练：
+You can retrain locally:
 
 ```bash
 python scripts/train_late_learn.py

@@ -1,4 +1,4 @@
-"""云端节点指标与模拟负载。"""
+"""Cloud node metrics and simulated load."""
 import random
 
 import psutil
@@ -7,7 +7,7 @@ from backend.common.schemas import NodeMetrics
 
 
 class CloudMetricsCollector:
-    """云端指标采集器。"""
+    """Cloud metrics collector."""
 
     def __init__(self):
         self.simulated_cpu = 0.25
@@ -22,7 +22,7 @@ class CloudMetricsCollector:
         self.extra_delay_ms = delay_ms
 
     def set_load(self, load: float) -> None:
-        """设置模拟负载 0~1。"""
+        """Set simulated load 0~1."""
         self.simulated_cpu = min(max(load, 0.05), 0.99)
         self.load_multiplier = 1.0 + load
 

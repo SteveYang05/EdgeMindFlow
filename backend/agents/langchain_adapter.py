@@ -1,4 +1,4 @@
-"""LangChain 可选 LLM 适配 — 无 Key 时自动 fallback."""
+"""Optional LangChain LLM adapter — auto-fallback when no API key."""
 import json
 import logging
 import os

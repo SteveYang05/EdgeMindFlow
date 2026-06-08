@@ -1,4 +1,4 @@
-"""MonitorAgent — 遥测采集与自然语言摘要."""
+"""MonitorAgent — telemetry collection and natural-language summary."""
 from typing import Any, Dict, List
 
 from backend.agents import tools
@@ -25,13 +25,13 @@ class MonitorAgent:
 
     def summarize(self, metrics: Dict[str, Any]) -> str:
         if not metrics:
-            return "暂无指标数据（可能尚未产生任务）。"
+            return "No metrics data yet (tasks may not have been generated)."
         return (
-            f"场景={metrics.get('current_scenario')}，策略={metrics.get('current_strategy')}，"
-            f"均延={metrics.get('avg_latency_ms', 0):.1f}ms，"
+            f"scenario={metrics.get('current_scenario')}, strategy={metrics.get('current_strategy')}, "
+            f"avg_latency={metrics.get('avg_latency_ms', 0):.1f}ms, "
             f"P95={metrics.get('p95_latency_ms', 0):.1f}ms，"
-            f"紧急均延={metrics.get('emergency_avg_latency_ms', 0):.1f}ms，"
-            f"QoS={metrics.get('qos_satisfaction_rate', 0):.1f}%，"
+            f"emergency_avg_latency={metrics.get('emergency_avg_latency_ms', 0):.1f}ms, "
+            f"QoS={metrics.get('qos_satisfaction_rate', 0):.1f}%, "
             f"cloud/edge/local={metrics.get('cloud_task_count', 0)}/"
             f"{metrics.get('edge_task_count', 0)}/{metrics.get('local_task_count', 0)}"
         )

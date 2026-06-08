@@ -1,4 +1,4 @@
-"""小数据集下载，失败时用 synthetic trace 兜底。"""
+"""Small dataset download; synthetic trace fallback on failure."""
 import json
 import logging
 import os
@@ -132,7 +132,7 @@ def download_dataset(
     traces_dir: Path,
     force: bool = False,
 ) -> Dict[str, Any]:
-    """下载单个数据集；manual_only 数据集拒绝自动下载。"""
+    """Download a single dataset; manual_only datasets reject auto-download."""
     meta = get_dataset(name)
     if meta.get("manual_only"):
         return {
@@ -190,7 +190,7 @@ def download_dataset(
 
 
 def download_auto_datasets(traces_dir: Path, force: bool = False) -> Dict[str, Any]:
-    """仅下载 auto_download=True 的数据集（MEC + EUA）。"""
+    """Download only auto_download=True datasets (MEC + EUA)."""
     results = {}
     for name, meta in DATASET_REGISTRY.items():
         if meta.get("auto_download"):

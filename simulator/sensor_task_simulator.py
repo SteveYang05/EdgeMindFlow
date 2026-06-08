@@ -1,4 +1,4 @@
-"""温湿度传感器专用模拟器（可被 device_simulator 替代）。"""
+"""Temperature/humidity sensor simulator (can be replaced by device_simulator)."""
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))

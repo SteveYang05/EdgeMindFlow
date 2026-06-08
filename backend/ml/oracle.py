@@ -1,4 +1,4 @@
-"""Oracle Cost Labeling — 为 LATE-Learn 生成最优代价标签。"""
+"""Oracle Cost Labeling — generate optimal cost labels for LATE-Learn."""
 from typing import Any, Dict, Tuple
 
 from backend.common.config import (
@@ -24,7 +24,7 @@ from backend.edge_server.offloading import (
 
 
 def _safety_penalty(profile: TaskProfile, node_type: str) -> float:
-    """安全关键任务选择 cloud 时增加惩罚；不硬编码 edge。"""
+    """Penalize cloud for safety-critical tasks; no hardcoded edge."""
     if profile.task_category != "safety_critical":
         return 0.0
     if node_type == "cloud":
@@ -35,7 +35,7 @@ def _safety_penalty(profile: TaskProfile, node_type: str) -> float:
 
 
 def _local_compute_penalty(profile: TaskProfile, node_type: str) -> float:
-    """高计算量任务在 local 执行增加 compute penalty。"""
+    """Add compute penalty for high-compute tasks executed locally."""
     if node_type != "local":
         return 0.0
     if profile.compute_cost >= 0.6 or profile.data_size_kb >= LARGE_TASK_KB:
@@ -68,7 +68,7 @@ def compute_oracle_node_cost(
     edge_overloaded: bool = False,
     scenario: str = "normal",
 ) -> Dict[str, float]:
-    """计算单节点 oracle 总代价及分量。"""
+    """Compute per-node oracle total cost and components."""
     base = estimate_node_cost(
         profile, node_type, edge_state, cloud_state, extra_cloud_delay_ms
     )
@@ -115,7 +115,7 @@ def compute_oracle_labels(
     extra_cloud_delay_ms: float = 0.0,
     edge_overloaded: bool = False,
 ) -> Dict[str, Any]:
-    """对 local/edge/cloud 模拟代价并返回 oracle 标签。"""
+    """Simulate local/edge/cloud costs and return oracle label."""
     profile = build_task_profile(task)
     costs = {}
     for node in ("local", "edge", "cloud"):

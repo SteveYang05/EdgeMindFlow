@@ -1,4 +1,4 @@
-"""SQLite 数据库 - 任务记录、告警、实验结果持久化。"""
+"""SQLite database — task records, alerts, and experiment result persistence."""
 import shutil
 import sqlite3
 from datetime import datetime
@@ -20,7 +20,7 @@ def _column_exists(conn, table: str, column: str) -> bool:
 
 
 def _migrate_db(conn):
-    """旧库缺少新字段时做增量迁移。"""
+    """Incremental migration when legacy DB lacks new columns."""
     if not _column_exists(conn, "alerts", "alert_category"):
         conn.execute("ALTER TABLE alerts ADD COLUMN alert_category TEXT DEFAULT 'system'")
     if not _column_exists(conn, "alerts", "alert_level"):
@@ -38,7 +38,7 @@ def _migrate_db(conn):
 
 
 def init_db():
-    """初始化数据库表。"""
+    """Initialize database tables."""
     with _get_conn() as conn:
         conn.executescript("""
             CREATE TABLE IF NOT EXISTS tasks (
@@ -122,7 +122,7 @@ def init_db():
 
 
 def insert_task(result: Dict[str, Any]) -> None:
-    """插入任务执行结果。"""
+    """Insert task execution result."""
     with _get_conn() as conn:
         conn.execute(
             """INSERT OR REPLACE INTO tasks (
@@ -170,8 +170,8 @@ def insert_alert(
     alert_type: str = "system_event",
     level: str = None,
 ) -> None:
-    """插入分类告警记录。"""
-    # 兼容旧 level 字段
+    """Insert categorized alert record."""
+    # Backward-compatible legacy level field
     legacy_level = level or alert_level
     with _get_conn() as conn:
         conn.execute(
@@ -194,7 +194,7 @@ def insert_alert(
 
 
 def _normalize_alert(row: Dict[str, Any]) -> Dict[str, Any]:
-    """兼容旧 alerts 数据。"""
+    """Backward-compatible legacy alerts data."""
     d = dict(row)
     if not d.get("alert_category"):
         d["alert_category"] = "system"
@@ -290,7 +290,7 @@ def get_max_task_id() -> int:
 
 
 def get_flow_stats(limit: int = 50) -> Dict[str, int]:
-    """最近任务流向统计。"""
+    """Recent task flow statistics."""
     with _get_conn() as conn:
         rows = conn.execute(
             """SELECT execution_location, COUNT(*) as cnt FROM (
@@ -307,7 +307,7 @@ def get_flow_stats(limit: int = 50) -> Dict[str, int]:
 
 
 def collect_experiment_stats(since_id: int, scenario: str, strategy: str) -> Dict[str, Any]:
-    """采集某段实验窗口内的任务统计。"""
+    """Collect task stats within an experiment window."""
     with _get_conn() as conn:
         rows = conn.execute(
             """SELECT * FROM tasks WHERE id > ? AND scenario=? AND strategy=?""",
@@ -425,7 +425,7 @@ def compute_qos_satisfaction_rate(tasks: List[Dict[str, Any]]) -> float:
 
 
 def _aggregate_tasks(tasks: List[Dict[str, Any]]) -> Dict[str, Any]:
-    """从任务列表聚合指标。"""
+    """Aggregate metrics from task list."""
     if not tasks:
         return {
             "total_tasks": 0,
@@ -487,7 +487,7 @@ def get_latest_experiment_id() -> Optional[str]:
 
 
 def get_metrics_from_experiment(experiment_id: str) -> Dict[str, Any]:
-    """从 experiment_results 表聚合最近一次实验指标。"""
+    """Aggregate latest experiment metrics from experiment_results table."""
     with _get_conn() as conn:
         rows = conn.execute(
             "SELECT * FROM experiment_results WHERE experiment_id=? ORDER BY id",
@@ -538,7 +538,7 @@ def get_metrics_from_experiment(experiment_id: str) -> Dict[str, Any]:
 
 
 def get_metrics_scoped(scope: str = "all") -> Dict[str, Any]:
-    """按数据范围返回指标。"""
+    """Return metrics by data scope."""
     if scope == "recent_100":
         tasks = get_recent_tasks(100)
         agg = _aggregate_tasks(tasks)
@@ -603,7 +603,7 @@ def get_metrics_scoped(scope: str = "all") -> Dict[str, Any]:
 
 
 def backup_database() -> Path:
-    """备份数据库到 backups/ 目录。"""
+    """Backup database to backups/ directory."""
     BACKUPS_DIR.mkdir(parents=True, exist_ok=True)
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
     dest = BACKUPS_DIR / f"computernet_{ts}.db"
@@ -613,7 +613,7 @@ def backup_database() -> Path:
 
 
 def reset_demo_tables() -> Dict[str, str]:
-    """清空演示相关表，保留表结构。"""
+    """Clear demo-related tables, preserving schema."""
     init_db()
     tables = ["tasks", "alerts", "experiment_results", "strategy_stats"]
     cleared = {}

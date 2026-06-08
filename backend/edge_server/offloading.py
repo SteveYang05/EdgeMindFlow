@@ -1,10 +1,10 @@
 """
-任务卸载决策：LATE-Offload 及多种 baseline 策略。
+Task offloading decisions: LATE-Offload and multiple baseline strategies.
 
 LATE-Offload (Latency-Aware and Task-priority Enhanced Edge Offloading)
-时延感知与任务优先级增强的边缘计算卸载方法。
+Latency-aware, task-priority-enhanced edge compute offloading method.
 
-API 策略名仍为 dynamic；内部实现三阶段 LATE-Offload。
+API strategy name remains dynamic; internally implements three-stage LATE-Offload.
 """
 from dataclasses import dataclass
 from typing import Any, Dict, Optional, Tuple
@@ -55,7 +55,7 @@ class TaskContext:
 
 @dataclass
 class TaskProfile:
-    """Stage 1: Task Profiling 任务画像。"""
+    """Stage 1: Task Profiling — task profile."""
     priority: str
     deadline_ms: float
     data_size_kb: float
@@ -89,7 +89,7 @@ _CATEGORY_MAP = {
 
 
 def build_task_profile(task: TaskContext) -> TaskProfile:
-    """Stage 1: 根据任务字段构造任务画像。"""
+    """Stage 1: Build task profile from task fields."""
     return TaskProfile(
         priority=task.priority,
         deadline_ms=task.deadline_ms,
@@ -153,7 +153,7 @@ def compute_score(
     deadline_ms: float,
     priority: str,
 ) -> float:
-    """Legacy 评分（baseline 策略展示用）。"""
+    """Legacy scoring (for baseline strategy display)."""
     norm_latency = min(estimated_latency_ms / 1000.0, 2.0)
     transfer_norm = min(transfer_cost / 500.0, 2.0)
     deadline_risk = deadline_violation_risk(estimated_latency_ms, deadline_ms)
@@ -169,7 +169,7 @@ def compute_score(
 
 
 def _compute_qos_risk(profile: TaskProfile, estimated_latency_ms: float, node_load: float) -> float:
-    """QoS 风险：结合风险等级、deadline 与节点负载。"""
+    """QoS risk: combines risk level, deadline, and node load."""
     risk_weight = {
         "critical": 1.0, "high": 0.75, "medium": 0.5, "low": 0.25,
     }.get(profile.risk_level, 0.5)
@@ -182,7 +182,7 @@ def get_adaptive_weights(
     profile: TaskProfile,
     metrics: Dict[str, Any],
 ) -> Dict[str, float]:
-    """Scenario-Adaptive Weighting：按场景与任务画像调整权重。"""
+    """Scenario-Adaptive Weighting: adjust weights by scenario and task profile."""
     weights = {
         "w_latency": WEIGHT_LATENCY,
         "w_load": WEIGHT_LOAD,
@@ -226,7 +226,7 @@ def estimate_node_cost(
     cloud_state: NodeState,
     extra_cloud_delay_ms: float = 0.0,
 ) -> Dict[str, float]:
-    """Stage 2: 对 local / edge / cloud 估计多目标代价分量。"""
+    """Stage 2: Estimate multi-objective cost components for local / edge / cloud."""
     if node_type == "local":
         compute = estimate_compute_latency_ms(
             profile.compute_cost, edge_state.cpu_load * 0.5, LOCAL_COMPUTE_CAPACITY
@@ -277,7 +277,7 @@ def compute_late_score(
     cost_components: Dict[str, float],
     adaptive_weights: Dict[str, float],
 ) -> float:
-    """Stage 2: LATE-Offload 自适应加权评分（越低越优）。"""
+    """Stage 2: LATE-Offload adaptive weighted scoring (lower is better)."""
     norm_latency = min(cost_components["estimated_latency_ms"] / 1000.0, 2.0)
     transfer_norm = min(cost_components["transfer_cost"] / 500.0, 2.0)
     score = (
@@ -300,7 +300,7 @@ def _apply_late_scenario_biases(
     edge_overloaded: bool,
     extra_cloud_delay_ms: float,
 ) -> Dict[str, float]:
-    """场景与任务画像相关的评分偏置（仍通过 score 决策，非硬编码）。"""
+    """Scenario and task-profile score bias (still score-based, not hardcoded)."""
     adjusted = dict(scores)
 
     adjusted["local"] += LOCAL_STABILITY_PENALTY
@@ -346,7 +346,7 @@ def apply_safety_edge_reservation(
     estimates: Dict[str, Dict[str, float]],
     metrics: Dict[str, Any],
 ) -> Tuple[Dict[str, float], Optional[str]]:
-    """Stage 3: 安全关键任务边缘保留机制（约束感知，仍基于 score）。"""
+    """Stage 3: Safety-critical edge reservation (constraint-aware, still score-based)."""
     if profile.task_category != "safety_critical" or profile.deadline_ms > 500:
         return scores, None
 
@@ -376,7 +376,7 @@ def _build_late_reason(
     reservation: Optional[str],
     scores: Dict[str, float],
 ) -> str:
-    """生成 LATE-Offload 可解释 reason。"""
+    """Generate explainable LATE-Offload reason."""
     if reservation == "edge" and decision == "edge":
         return (
             f"{METHOD_NAME}: safety-critical {profile.task_type.replace('_', ' ')} "
@@ -427,7 +427,7 @@ def decide_late_offload(
     edge_overloaded: bool = False,
     scenario: str = "normal",
 ) -> Tuple[str, str, Dict[str, float], Dict[str, Dict[str, float]]]:
-    """LATE-Offload 三阶段决策入口。"""
+    """LATE-Offload three-stage decision entry point."""
     profile = build_task_profile(task)
     metrics = {
         "edge_state": edge_state,

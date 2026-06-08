@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""演示前一键：清数据、跑实验、导出报告。"""
+"""One-click demo prep: clear data, run experiments, export report."""
 import os
 import subprocess
 import sys
@@ -26,39 +26,39 @@ def main():
     quick = os.getenv("PREPARE_QUICK", "").lower() in ("1", "true", "yes")
 
     print("========================================")
-    print(" ComputerNet 演示数据准备")
+    print(" ComputerNet demo data preparation")
     print("========================================")
 
     # Step 1: Reset
-    print("\n[Step 1] 重置演示数据...")
+    print("\n[Step 1] Resetting demo data...")
     subprocess.run([sys.executable, str(PROJECT_ROOT / "scripts" / "reset_demo_data.py")], check=True)
 
     # Step 2: Check services
-    print("\n[Step 2] 检查服务...")
+    print("\n[Step 2] Checking services...")
     if not check_services():
-        print("\n[错误] Edge/Cloud Server 未运行!")
-        print("  请先执行: bash scripts/start_all.sh")
+        print("\n[Error] Edge/Cloud Server is not running!")
+        print("  Run first: bash scripts/start_all.sh")
         sys.exit(1)
-    print("  Edge + Cloud 服务正常")
+    print("  Edge + Cloud services OK")
 
     # Step 3: Run experiment matrix
-    print(f"\n[Step 3] 运行实验矩阵 (每组 {duration}s)...")
+    print(f"\n[Step 3] Running experiment matrix ({duration}s per group)...")
     results = run_full_experiment(duration_sec=duration, quick=quick)
 
     # Step 4: Export report
-    print("\n[Step 4] 导出实验报告...")
+    print("\n[Step 4] Exporting experiment report...")
     subprocess.run([sys.executable, str(PROJECT_ROOT / "scripts" / "export_report.py")], check=True)
 
     print("\n========================================")
-    print(" 演示准备完成!")
+    print(" Demo preparation complete!")
     print("------------------------------------------")
     print(f"  Dashboard:  http://localhost:{FRONTEND_PORT}")
     print(f"  Edge API:   {EDGE_SERVER_URL}/docs")
-    print(f"  报告:       {RESULTS_DIR / 'report.md'}")
-    print(f"  实验 CSV:   {RESULTS_DIR / 'experiment_summary.csv'}")
-    print(f"  实验组数:   {len(results)}")
+    print(f"  Report:     {RESULTS_DIR / 'report.md'}")
+    print(f"  Experiment CSV: {RESULTS_DIR / 'experiment_summary.csv'}")
+    print(f"  Experiment groups: {len(results)}")
     print("------------------------------------------")
-    print(" 建议 Dashboard 数据视图选择: Recent 100 或 Latest Experiment")
+    print(" Suggested Dashboard data view: Recent 100 or Latest Experiment")
     print("========================================")
 
 

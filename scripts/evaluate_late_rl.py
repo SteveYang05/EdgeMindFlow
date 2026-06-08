@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""LATE-RL 评估脚本。"""
+"""LATE-RL evaluation script."""
 import os
 import sys
 from pathlib import Path

@@ -1,4 +1,4 @@
-"""AgentNet 轻量内存 — 最近一次执行记录."""
+"""AgentNet lightweight memory — most recent execution record."""
 from typing import Any, Dict, List, Optional
 
 _last_execution: Optional[Dict[str, Any]] = None

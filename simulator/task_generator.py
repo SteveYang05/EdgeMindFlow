@@ -1,4 +1,4 @@
-"""任务生成器 - 根据设备类型生成不同特征的任务。"""
+"""Task generator — produce tasks with different characteristics per device type."""
 import uuid
 from datetime import datetime
 from typing import Dict
@@ -44,7 +44,7 @@ DEVICE_PROFILES = {
 
 
 def generate_task(device_id: str, override: Dict = None) -> dict:
-    """为指定设备生成一个任务。"""
+    """Generate one task for the specified device."""
     profile = DEVICE_PROFILES.get(device_id, {
         "task_type": "periodic_stats",
         "priority": "medium",
@@ -72,7 +72,7 @@ def generate_task(device_id: str, override: Dict = None) -> dict:
 
 
 def generate_emergency_smoke_task() -> dict:
-    """生成紧急烟雾告警任务（用于 emergency 场景演示）。"""
+    """Generate emergency smoke alert task (for emergency scenario demo)."""
     return generate_task("smoke_sensor_01", {
         "priority": "high",
         "deadline_ms": 150,

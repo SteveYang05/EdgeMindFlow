@@ -1,6 +1,6 @@
 """
-Edge Server - 边缘计算任务卸载与调度服务
-端口: 8000
+Edge Server - edge compute task offloading and scheduling service
+Port: 8000
 """
 import asyncio
 import json
@@ -70,7 +70,7 @@ _mqtt_sub: EdgeMQTTSubscriber | None = None
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """应用生命周期：数据集初始化 + MQTT 订阅（可选）。"""
+    """Application lifespan: dataset init + optional MQTT subscription."""
     global _mqtt_sub
     db.init_db()
     if AUTO_DOWNLOAD_DATASETS:
@@ -95,7 +95,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title="ComputerNet Edge Server",
-    description="面向智能园区的边缘计算任务卸载与低时延网络优化系统",
+    description="Edge compute task offloading and low-latency network optimization for smart campuses",
     version="1.0.0",
     lifespan=lifespan,
 )
@@ -108,11 +108,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# init_db 在 lifespan 中调用（支持数据集目录初始化）
+# init_db is called in lifespan (supports dataset directory initialization)
 
 
 async def fetch_cloud_metrics() -> NodeState:
-    """从 Cloud Server 获取云端状态。"""
+    """Fetch cloud state from Cloud Server."""
     try:
         async with httpx.AsyncClient(timeout=2.0) as client:
             resp = await client.get(f"{CLOUD_SERVER_URL}/api/cloud/metrics")
@@ -128,7 +128,7 @@ async def fetch_cloud_metrics() -> NodeState:
 
 
 async def execute_on_cloud(task: dict) -> dict:
-    """转发任务到 Cloud Server 执行。"""
+    """Forward task to Cloud Server for execution."""
     async with httpx.AsyncClient(timeout=10.0) as client:
         resp = await client.post(
             f"{CLOUD_SERVER_URL}/api/cloud/execute",
@@ -145,8 +145,8 @@ async def execute_on_cloud(task: dict) -> dict:
 
 async def process_task(task_data: dict) -> dict:
     """
-    核心任务处理流水线:
-    接收 -> 卸载决策 -> 执行 -> 记录结果
+    Core task processing pipeline:
+    receive -> offloading decision -> execute -> record result
     """
     metrics_collector.increment_active_tasks()
     task = TaskContext(
@@ -251,7 +251,7 @@ async def process_task(task_data: dict) -> dict:
     metrics_collector.record_strategy_latency(edge_models.current_strategy, total_ms)
     metrics_collector.decrement_active_tasks()
 
-    # 告警入库时带上分类
+    # Persist alerts with category classification
     device_id = task_data.get("device_id", "unknown")
     if task.task_type == "smoke_alert":
         db.insert_alert(
@@ -282,10 +282,10 @@ async def process_task(task_data: dict) -> dict:
             alert_type="deadline_violation",
         )
 
-    # 性能告警：边缘/云端过载
+    # Performance alerts: edge/cloud overload
     if metrics_collector.is_edge_overloaded() and task.priority != "high":
         if task.task_type != "smoke_alert":
-            pass  # 仅在场景切换时记录 edge_overload 系统事件
+            pass  # edge_overload system events are recorded only on scenario switch
 
     logger.info(
         "Task %s -> %s | latency=%.0fms | reason=%s",
@@ -295,7 +295,7 @@ async def process_task(task_data: dict) -> dict:
 
 
 async def _sync_cloud_scenario(scenario: str):
-    """通过 API 同步云端实验参数。"""
+    """Sync cloud experiment parameters via API."""
     try:
         async with httpx.AsyncClient(timeout=2.0) as client:
             if scenario == Scenario.CLOUD_DELAY.value:
@@ -312,7 +312,7 @@ async def _sync_cloud_scenario(scenario: str):
 
 
 async def _apply_scenario(scenario: str):
-    """应用场景并同步云端参数。"""
+    """Apply scenario and sync cloud parameters."""
     edge_models.current_scenario = scenario
     metrics_collector.set_scenario(scenario)
     await _sync_cloud_scenario(scenario)
@@ -360,7 +360,7 @@ async def health():
 
 @app.post("/api/tasks/submit")
 async def submit_task(task: TaskSubmit):
-    """HTTP Fallback: IoT 设备任务提交入口。"""
+    """HTTP Fallback: IoT device task submission endpoint."""
     data = normalize_task(task)
     result = await process_task(data)
     return result
@@ -382,7 +382,7 @@ async def get_metrics(scope: str = "all"):
     scope_hint = ""
 
     if db_metrics.get("empty"):
-        scope_hint = "暂无实验数据，请先运行 bash scripts/prepare_demo.sh"
+        scope_hint = "No experiment data yet — run bash scripts/prepare_demo.sh first"
         db_metrics = db.get_metrics_scoped("recent_100") if scope == "latest_experiment" else db_metrics
 
     if scope in ("recent_100", "recent_300"):
@@ -401,7 +401,7 @@ async def get_metrics(scope: str = "all"):
         }
         type_dist = db_metrics.get("task_type_distribution", {})
         strategy_comp = db_metrics.get("strategy_comparison", {})
-        scope_hint = f"实验 ID: {db_metrics.get('experiment_id', 'N/A')}"
+        scope_hint = f"Experiment ID: {db_metrics.get('experiment_id', 'N/A')}"
     else:
         loc_counts = db.count_by_location()
         type_dist = db_metrics.get("task_type_distribution") or db.count_by_type()
@@ -472,7 +472,7 @@ async def get_alerts(limit: int = 20, category: str = None):
 
 @app.get("/api/topology", response_model=TopologyResponse)
 async def get_topology(scope: str = "recent_100"):
-    """网络拓扑与任务流向数据。"""
+    """Network topology and task flow data."""
     edge_m = metrics_collector.get_node_metrics()
     try:
         async with httpx.AsyncClient(timeout=2.0) as client:
@@ -527,7 +527,7 @@ async def experiments_latest():
 
 @app.get("/api/export/summary")
 async def export_summary():
-    """导出当前指标摘要。"""
+    """Export current metrics summary."""
     from backend.common.config import RESULTS_DIR
     import json
     metrics = await get_metrics()
@@ -541,10 +541,10 @@ async def export_summary():
 @app.get("/api/scenario")
 async def get_scenario():
     descriptions = {
-        "normal": "网络正常，动态卸载",
-        "cloud_delay": "云端链路延迟升高",
-        "edge_overload": "边缘节点负载过高",
-        "emergency": "烟雾告警/紧急事件",
+        "normal": "Normal network, dynamic offloading",
+        "cloud_delay": "Elevated cloud link latency",
+        "edge_overload": "Edge node overloaded",
+        "emergency": "Smoke alert / emergency event",
     }
     return ScenarioState(
         scenario=edge_models.current_scenario,
@@ -600,7 +600,7 @@ async def set_strategy(strategy_name: str):
 
 @app.get("/api/datasets")
 async def list_datasets_api():
-    """列出全部 trace 数据集（含 Google/Alibaba 文档注册项）。"""
+    """List all trace datasets (including Google/Alibaba documentation registry entries)."""
     dm = get_dataset_manager()
     return {"datasets": dm.list_all()}
 
@@ -616,7 +616,7 @@ async def get_dataset_api(name: str):
 
 @app.post("/api/datasets/download")
 async def download_default_datasets(force: bool = False):
-    """仅下载 MEC + EUA（auto_download=True）；失败自动 synthetic fallback。"""
+    """Download MEC + EUA only (auto_download=True); synthetic fallback on failure."""
     dm = get_dataset_manager()
     results = dm.ensure_default_datasets(force=force)
     return {"status": "ok", "downloaded": results}
@@ -644,7 +644,7 @@ async def train_late_learn_api(
     limit: int = 2000,
     label_source: str = None,
 ):
-    """CPU 训练 LATE-Learn（默认 Oracle Cost Labeling，可选 teacher）。"""
+    """CPU-train LATE-Learn (default Oracle Cost Labeling, optional teacher)."""
     from backend.common.config import LATE_LEARN_LABEL_SOURCE
     from backend.ml.predictor import clear_model_cache
     from backend.ml.train import train_late_learn
@@ -803,7 +803,7 @@ _demo_mode_active = False
 
 @app.post("/api/demo/reset_state")
 async def demo_reset_state():
-    """重置内存中的策略统计（配合 reset_demo_data 使用）。"""
+    """Reset in-memory strategy stats (use with reset_demo_data)."""
     metrics_collector.reset_strategy_stats()
     edge_models.current_scenario = Scenario.NORMAL.value
     edge_models.current_strategy = OffloadingStrategy.DYNAMIC.value
@@ -848,7 +848,7 @@ async def demo_stop():
 
 @app.post("/api/demo/trigger_smoke")
 async def demo_trigger_smoke():
-    """提交一条烟雾告警任务，供演示使用。"""
+    """Submit a smoke alert task for demo purposes."""
     import uuid
     task_data = {
         "task_id": f"demo_smoke_{uuid.uuid4().hex[:8]}",
@@ -867,7 +867,7 @@ async def demo_trigger_smoke():
 
 @app.post("/api/demo/scenario_tour")
 async def demo_scenario_tour():
-    """依次切换四个场景（每个场景立即切换，前端负责停留时间）。"""
+    """Cycle through four scenarios (immediate switch each; frontend controls dwell time)."""
     tour = ["normal", "cloud_delay", "edge_overload", "emergency"]
     for s in tour:
         await _apply_scenario(s)
@@ -896,7 +896,7 @@ if IMAGES_DIR.is_dir():
     app.mount("/api/images", StaticFiles(directory=str(IMAGES_DIR)), name="dashboard_images")
 
 
-# MQTT 回调
+# MQTT callback
 def _mqtt_task_handler(payload: dict):
     asyncio.create_task(process_task(payload))
 

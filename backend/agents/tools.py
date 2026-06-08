@@ -1,4 +1,4 @@
-"""AgentNet Tool Layer — 封装 Edge Server 能力."""
+"""AgentNet Tool Layer — wraps Edge Server capabilities."""
 import logging
 import uuid
 from datetime import datetime
@@ -185,22 +185,22 @@ async def execute_tool(name: str, args: Dict[str, Any], context: Dict[str, Any])
 TOOL_SCHEMAS = [
     {
         "name": "get_metrics",
-        "description": "获取系统指标",
+        "description": "Get system metrics",
         "parameters": {"scope": {"type": "string", "default": "recent_100"}},
     },
     {
         "name": "set_scenario",
-        "description": "切换实验场景",
+        "description": "Switch experiment scenario",
         "parameters": {"scenario": {"type": "string", "enum": list(ALLOWED_SCENARIOS)}},
     },
     {
         "name": "set_strategy",
-        "description": "切换卸载策略",
+        "description": "Switch offloading strategy",
         "parameters": {"strategy": {"type": "string", "enum": list(ALLOWED_STRATEGIES)}},
     },
-    {"name": "get_recent_tasks", "description": "获取最近任务", "parameters": {"limit": {"type": "integer"}}},
-    {"name": "get_alerts", "description": "获取告警", "parameters": {"limit": {"type": "integer"}}},
-    {"name": "trigger_smoke_alert", "description": "触发烟雾告警任务", "parameters": {}},
-    {"name": "run_quick_check", "description": "健康与孪生快速检查", "parameters": {}},
-    {"name": "validate_intent", "description": "验证意图是否达成", "parameters": {}},
+    {"name": "get_recent_tasks", "description": "Get recent tasks", "parameters": {"limit": {"type": "integer"}}},
+    {"name": "get_alerts", "description": "Get alerts", "parameters": {"limit": {"type": "integer"}}},
+    {"name": "trigger_smoke_alert", "description": "Trigger smoke alert task", "parameters": {}},
+    {"name": "run_quick_check", "description": "Health and digital-twin quick check", "parameters": {}},
+    {"name": "validate_intent", "description": "Validate whether intent is satisfied", "parameters": {}},
 ]

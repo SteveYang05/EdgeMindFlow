@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# LATE-RL 候选训练扫描 — 保存至 data/models/rl_candidates/，不覆盖主模型
+# LATE-RL candidate training sweep — save to data/models/rl_candidates/, do not overwrite main model
 set -euo pipefail
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$PROJECT_ROOT"

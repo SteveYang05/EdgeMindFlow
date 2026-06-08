@@ -1,4 +1,4 @@
-"""OffloadEnv — 轻量 RL 环境，复用现有时延/代价模型。"""
+"""OffloadEnv — lightweight RL environment reusing existing latency/cost models."""
 import random
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -26,7 +26,7 @@ _SYNTHETIC_TASKS = [
 
 
 class OffloadEnv:
-    """自定义卸载 RL 环境。"""
+    """Custom offloading RL environment."""
 
     def __init__(self, seed: int = 42, trace_limit: int = 500, reward_profile: str = "default"):
         self.rng = random.Random(seed)
@@ -171,7 +171,7 @@ class OffloadEnv:
             reward_profile=self.reward_profile,
         )
 
-        # 更新队列与负载
+        # Update queue and load
         if action == 1:
             self.edge_queue_depth = max(0, self.edge_queue_depth + 1 - (1 if deadline_met else 0))
             self.edge_cpu = min(0.99, self.edge_cpu + 0.02)

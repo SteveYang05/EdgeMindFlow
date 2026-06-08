@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""LATE-RL CPU 训练脚本。"""
+"""LATE-RL CPU training script."""
 import os
 import sys
 from pathlib import Path

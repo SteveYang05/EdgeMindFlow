@@ -1,13 +1,13 @@
-"""边缘服务运行时状态模型。"""
+"""Edge server runtime state models."""
 from backend.common.schemas import OffloadingStrategy, Scenario
 from backend.edge_server.metrics import EdgeMetricsCollector
 
-# 全局单例状态
+# Global singleton state
 metrics_collector = EdgeMetricsCollector()
 current_strategy: str = OffloadingStrategy.DYNAMIC.value
 current_scenario: str = Scenario.NORMAL.value
 
-# 注册设备列表
+# Registered device list
 REGISTERED_DEVICES = [
     {
         "device_id": "temperature_sensor_01",

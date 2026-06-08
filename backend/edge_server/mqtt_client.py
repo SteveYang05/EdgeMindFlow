@@ -1,8 +1,8 @@
 """
-MQTT 客户端 - 订阅 IoT 设备任务 topic。
+MQTT client — subscribes to IoT device task topics.
 
-Topic 设计: smart_park/devices/{device_id}/tasks
-默认使用 HTTP fallback，MQTT 为可选增强。
+Topic design: smart_park/devices/{device_id}/tasks
+HTTP fallback by default; MQTT is an optional enhancement.
 """
 import json
 import logging
@@ -19,7 +19,7 @@ except ImportError:
 
 
 class EdgeMQTTSubscriber:
-    """边缘节点 MQTT 订阅器。"""
+    """Edge node MQTT subscriber."""
 
     def __init__(
         self,
@@ -49,7 +49,7 @@ class EdgeMQTTSubscriber:
             logger.error("MQTT message parse error: %s", e)
 
     def start(self) -> bool:
-        """启动 MQTT 订阅（后台线程）。"""
+        """Start MQTT subscription (background thread)."""
         if not PAHO_AVAILABLE:
             logger.warning("paho-mqtt not available")
             return False

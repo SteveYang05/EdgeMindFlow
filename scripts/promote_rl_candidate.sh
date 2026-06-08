@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# 将指定 RL 候选提升为主模型（需用户显式传入 candidate_name）
+# Promote specified RL candidate to main model (requires explicit candidate_name)
 set -euo pipefail
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$PROJECT_ROOT"

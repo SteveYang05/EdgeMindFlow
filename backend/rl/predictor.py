@@ -1,4 +1,4 @@
-"""LATE-RL 推理 — late_rl 策略，fallback 链 LATE-Learn → LATE-Offload。"""
+"""LATE-RL inference — late_rl strategy, fallback chain LATE-Learn → LATE-Offload."""
 import logging
 from pathlib import Path
 from typing import Any, Dict, Optional, Tuple
@@ -58,7 +58,7 @@ def predict_offloading_rl(
     recent_avg_latency: float = 100.0,
     recent_violation_rate: float = 0.0,
 ) -> Tuple[Optional[str], str, bool, Dict[str, Any]]:
-    """返回 (decision, reason, used_rl, extra_info)。"""
+    """Return (decision, reason, used_rl, extra_info)."""
     extra: Dict[str, Any] = {
         "fallback_used": False,
         "rl_model_type": None,

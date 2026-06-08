@@ -1,4 +1,4 @@
-"""Synthetic trace-like 数据集 — 小数据集下载失败时的 fallback。"""
+"""Synthetic trace-like datasets — fallback when small dataset download fails."""
 import csv
 import random
 from datetime import datetime, timedelta
@@ -21,7 +21,7 @@ DEVICES = [
 
 
 def generate_mec_edge_synthetic(path: Path, rows: int = 500) -> Dict:
-    """生成类 MEC 边缘计算任务 trace CSV。"""
+    """Generate MEC-like edge compute task trace CSV."""
     path.parent.mkdir(parents=True, exist_ok=True)
     base_time = datetime.utcnow()
     fieldnames = [
@@ -49,7 +49,7 @@ def generate_mec_edge_synthetic(path: Path, rows: int = 500) -> Dict:
 
 
 def generate_eua_synthetic(path: Path, rows: int = 200) -> Dict:
-    """生成类 EUA 边缘用户分配 trace CSV。"""
+    """Generate EUA-like edge user allocation trace CSV."""
     path.parent.mkdir(parents=True, exist_ok=True)
     fieldnames = [
         "user_id", "latitude", "longitude", "edge_node_id",

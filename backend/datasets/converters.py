@@ -1,4 +1,4 @@
-"""将公开远程 CSV 转换为 ComputerNet 内部 trace schema。"""
+"""Convert public remote CSV to ComputerNet internal trace schema."""
 import csv
 import math
 import random
@@ -64,7 +64,7 @@ def _matches_internal_schema(path: Path) -> bool:
 
 
 def convert_mec_edge_csv(src: Path, dest: Path, max_rows: int = 2000) -> Dict[str, Any]:
-    """把公开 MEC CSV 转成项目内部 trace 格式。"""
+    """Convert public MEC CSV to internal project trace format."""
     if _matches_internal_schema(src):
         if src.resolve() != dest.resolve():
             dest.write_bytes(src.read_bytes())

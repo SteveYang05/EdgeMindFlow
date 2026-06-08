@@ -18,7 +18,7 @@ MODEL_TYPE = "sklearn_fitted_q"
 
 
 class LateRLAgent:
-    """轻量 epsilon-greedy Fitted-Q agent。"""
+    """Lightweight epsilon-greedy Fitted-Q agent."""
 
     def __init__(
         self,
@@ -90,7 +90,7 @@ class LateRLAgent:
         episodes: int = 200,
         episode_length: int = 200,
     ) -> List[Dict[str, Any]]:
-        """训练并返回每 episode 统计。"""
+        """Train and return per-episode statistics."""
         curve: List[Dict[str, Any]] = []
         best_avg = float("-inf")
 

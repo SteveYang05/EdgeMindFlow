@@ -1,4 +1,4 @@
-"""云端任务执行模拟器。"""
+"""Cloud task execution simulator."""
 import asyncio
 import random
 
@@ -13,20 +13,20 @@ async def execute_task(
     metrics: CloudMetricsCollector,
 ) -> dict:
     """
-    模拟云端任务执行。
-    返回 compute_latency_ms 和 return_latency_ms。
+    Simulate cloud task execution.
+    Returns compute_latency_ms and return_latency_ms.
     """
     metrics.active_tasks += 1
     metrics.processed_count += 1
     load = metrics.get_cpu_load()
-    # 计算时延建模
+    # Compute latency modeling
     base_compute = (compute_cost / CLOUD_COMPUTE_CAPACITY) * 1000
     compute_ms = base_compute * (1 + load * 2) * metrics.load_multiplier
-    # 额外云端链路延迟
+    # Extra cloud link delay
     compute_ms += metrics.extra_delay_ms * 0.3
-    # 数据量影响
+    # Data size impact
     compute_ms += data_size_kb * 0.02
-    # 模拟执行耗时（缩短实际等待）
+    # Simulate execution time (shortened actual wait)
     await asyncio.sleep(min(compute_ms / 1000, 0.3))
     compute_ms += random.uniform(-5, 15)
     metrics.active_tasks = max(0, metrics.active_tasks - 1)

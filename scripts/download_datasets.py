@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""下载默认 trace 数据集（MEC + EUA）；失败自动 synthetic fallback。"""
+"""Download default trace datasets (MEC + EUA); synthetic fallback on failure."""
 import os
 import sys
 from pathlib import Path

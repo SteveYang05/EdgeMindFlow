@@ -30,7 +30,7 @@ def _norm(val: float, scale: float) -> float:
 
 
 class StateEncoder:
-    """统一训练/推理 state 编码。"""
+    """Unified train/inference state encoding."""
 
     def __init__(self):
         self.numeric_dim = 13

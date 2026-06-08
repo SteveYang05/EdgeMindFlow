@@ -1,4 +1,4 @@
-"""RL reward function — 可解释长期优化目标，支持多种 reward profile。"""
+"""RL reward function — interpretable long-term objective, multiple reward profiles."""
 from typing import Dict
 
 from backend.edge_server.offloading import TaskProfile
@@ -20,7 +20,7 @@ def compute_reward(
     success: bool = True,
     reward_profile: str = "default",
 ) -> tuple[float, Dict[str, float]]:
-    """计算 reward 及分项，供报告解释。"""
+    """Compute reward and components for report explanation."""
     location = ACTIONS[action]
     profile_name = reward_profile if reward_profile in REWARD_PROFILES else "default"
     parts: Dict[str, float] = {}

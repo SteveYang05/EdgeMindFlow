@@ -1,4 +1,4 @@
-"""多智能体编排：按 Intent → Plan → Execute → Validate 顺序跑完一轮。"""
+"""Multi-agent orchestration: Intent → Plan → Execute → Validate in one round."""
 import logging
 from typing import Any, Dict, List
 
@@ -88,7 +88,7 @@ class AgentOrchestrator:
                 metrics_before=metrics_before,
                 metrics_after=metrics_before,
                 final_status="failed",
-                explanation=plan.rationale or "意图无法识别，未执行变更。",
+                explanation=plan.rationale or "Intent not recognized; no changes applied.",
                 workflow_trace=workflow,
             )
             save_execution(result.model_dump())
@@ -145,7 +145,7 @@ class AgentOrchestrator:
 
         explanation = (
             f"{plan.rationale} {self.monitor_agent.summarize(metrics_after)} "
-            f"验证：{validation.summary}"
+            f"Validation: {validation.summary}"
         )
 
         result = AgentExecutionResult(

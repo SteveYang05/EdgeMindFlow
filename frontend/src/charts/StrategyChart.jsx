@@ -28,7 +28,7 @@ export default function StrategyChart({ comparison }) {
     },
     yAxis: {
       type: 'value',
-      name: '平均时延(ms)',
+      name: 'Avg Latency (ms)',
       axisLabel: { color: '#71767b' },
       splitLine: { lineStyle: { color: '#2f3336' } },
     },

@@ -1,4 +1,4 @@
-"""Trace 数据集管理：MEC/EUA 默认可下载。"""
+"""Trace dataset management: MEC/EUA downloadable by default."""
 
 from backend.datasets.manager import DatasetManager, get_dataset_manager
 

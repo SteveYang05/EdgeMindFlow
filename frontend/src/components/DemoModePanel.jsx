@@ -2,10 +2,10 @@ import React, { useState } from 'react'
 import { demoStart, demoStop, demoTriggerSmoke, setScenario } from '../api'
 
 const TOUR_SCENARIOS = [
-  { id: 'normal', label: '网络正常', delay: 5000 },
-  { id: 'cloud_delay', label: '云端延迟↑', delay: 5000 },
-  { id: 'edge_overload', label: '边缘过载', delay: 5000 },
-  { id: 'emergency', label: '紧急告警', delay: 5000 },
+  { id: 'normal', label: 'Normal', delay: 5000 },
+  { id: 'cloud_delay', label: 'Cloud Delay↑', delay: 5000 },
+  { id: 'edge_overload', label: 'Edge Overload', delay: 5000 },
+  { id: 'emergency', label: 'Emergency', delay: 5000 },
 ]
 
 export default function DemoModePanel({ onRefresh }) {
@@ -17,7 +17,7 @@ export default function DemoModePanel({ onRefresh }) {
   const handleStart = async () => {
     await demoStart()
     setDemoActive(true)
-    setMsg('Demo Mode 已启动 (dynamic + normal)')
+    setMsg('Demo Mode started (dynamic + normal)')
     onRefresh?.()
   }
 
@@ -26,13 +26,13 @@ export default function DemoModePanel({ onRefresh }) {
     setDemoActive(false)
     setTouring(false)
     setTourStep('')
-    setMsg('Demo Mode 已停止')
+    setMsg('Demo Mode stopped')
     onRefresh?.()
   }
 
   const handleSmoke = async () => {
     const r = await demoTriggerSmoke()
-    setMsg(`烟雾告警已触发 → ${r.task?.decision || 'edge'}`)
+    setMsg(`Smoke alert triggered → ${r.task?.decision || 'edge'}`)
     onRefresh?.()
   }
 
@@ -49,7 +49,7 @@ export default function DemoModePanel({ onRefresh }) {
     await setScenario('normal')
     setTourStep('')
     setTouring(false)
-    setMsg('场景巡游完成: normal → cloud_delay → edge_overload → emergency → normal')
+    setMsg('Scenario tour complete: normal → cloud_delay → edge_overload → emergency → normal')
     onRefresh?.()
   }
 
@@ -70,12 +70,12 @@ export default function DemoModePanel({ onRefresh }) {
           Trigger Smoke Alert
         </button>
         <button className="btn" onClick={handleTour} disabled={touring}>
-          {touring ? `巡游中: ${tourStep}` : 'Run Scenario Tour'}
+          {touring ? `Tour in progress: ${tourStep}` : 'Run Scenario Tour'}
         </button>
       </div>
       {msg && <p style={{ fontSize: '0.72rem', color: '#71767b', marginTop: 8 }}>{msg}</p>}
       <p style={{ fontSize: '0.68rem', color: '#555', marginTop: 4 }}>
-        提示: 更快任务流可设置 TASK_INTERVAL_SEC=1 后重启模拟器
+        Tip: set TASK_INTERVAL_SEC=1 and restart the simulator for faster task flow
       </p>
     </div>
   )

@@ -1,4 +1,4 @@
-"""LATE-Learn 模型评估 — Regret 指标。"""
+"""LATE-Learn model evaluation — Regret metrics."""
 from typing import Any, Dict, List, Optional
 
 import numpy as np
@@ -21,7 +21,7 @@ def compute_regret_metrics(
     y_pred: np.ndarray,
     records: List[Dict[str, Any]],
 ) -> Dict[str, Any]:
-    """计算 oracle agreement 与 regret 指标。"""
+    """Compute oracle agreement and regret metrics."""
     n = len(records)
     if n == 0:
         return {

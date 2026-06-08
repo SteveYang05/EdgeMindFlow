@@ -1,4 +1,4 @@
-"""LATE-Learn 推理 — learned_late 策略。"""
+"""LATE-Learn inference — learned_late strategy."""
 import logging
 from pathlib import Path
 from typing import Any, Dict, Optional, Tuple

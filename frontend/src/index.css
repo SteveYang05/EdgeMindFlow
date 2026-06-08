@@ -153,7 +153,7 @@ body {
 .deadline-violation { color: #f4212e; }
 .deadline-ok { color: #00ba7c; }
 
-/* 网络拓扑 */
+/* Network topology */
 .topo-container { padding: 8px 0; }
 .topo-layer-title { font-size: 0.72rem; color: #71767b; text-transform: uppercase; margin-bottom: 10px; letter-spacing: 0.05em; }
 .topo-devices { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 16px; }
@@ -192,7 +192,7 @@ body {
 .btn.danger { border-color: #f4212e; color: #f4212e; }
 .btn.danger:hover { background: #f4212e; color: #fff; }
 
-/* AgentNet 面板 */
+/* AgentNet panel */
 .agent-panel { border-color: #1d3a5c; }
 .agent-intent-input {
   width: 100%;

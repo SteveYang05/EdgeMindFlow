@@ -1,4 +1,4 @@
-"""Pydantic 数据模型 - 任务、决策、指标等。"""
+"""Pydantic data models — tasks, decisions, metrics, etc."""
 from datetime import datetime
 from enum import Enum
 from typing import Any, Dict, List, Optional
@@ -45,7 +45,7 @@ class Scenario(str, Enum):
 
 
 class TaskSubmit(BaseModel):
-    """IoT 设备提交的任务。"""
+    """Task submitted by IoT device."""
     task_id: str
     device_id: str
     task_type: str
@@ -58,7 +58,7 @@ class TaskSubmit(BaseModel):
 
 
 class OffloadingDecision(BaseModel):
-    """卸载决策结果。"""
+    """Offloading decision result."""
     task_id: str
     decision: str
     reason: str
@@ -71,7 +71,7 @@ class OffloadingDecision(BaseModel):
 
 
 class TaskResult(BaseModel):
-    """任务执行结果。"""
+    """Task execution result."""
     task_id: str
     device_id: str
     task_type: str
@@ -96,7 +96,7 @@ class TaskResult(BaseModel):
 
 
 class NodeMetrics(BaseModel):
-    """节点负载指标。"""
+    """Node load metrics."""
     cpu_percent: float = 0.0
     memory_percent: float = 0.0
     simulated_load: float = 0.0
@@ -106,7 +106,7 @@ class NodeMetrics(BaseModel):
 
 
 class SystemMetrics(BaseModel):
-    """系统聚合指标。"""
+    """System aggregate metrics."""
     avg_latency_ms: float = 0.0
     p95_latency_ms: float = 0.0
     edge_task_count: int = 0
@@ -133,7 +133,7 @@ class SystemMetrics(BaseModel):
 
 
 class TopologyResponse(BaseModel):
-    """网络拓扑 API 响应。"""
+    """Network topology API response."""
     devices: List[Dict[str, Any]] = Field(default_factory=list)
     edge: Dict[str, Any] = Field(default_factory=dict)
     cloud: Dict[str, Any] = Field(default_factory=dict)
@@ -144,7 +144,7 @@ class TopologyResponse(BaseModel):
 
 
 class CloudExecuteRequest(BaseModel):
-    """云端执行任务请求。"""
+    """Cloud task execution request."""
     task_id: str
     task_type: str
     compute_cost: float
@@ -153,7 +153,7 @@ class CloudExecuteRequest(BaseModel):
 
 
 class CloudExecuteResponse(BaseModel):
-    """云端执行响应。"""
+    """Cloud execution response."""
     task_id: str
     success: bool
     compute_latency_ms: float
@@ -161,7 +161,7 @@ class CloudExecuteResponse(BaseModel):
 
 
 class ScenarioState(BaseModel):
-    """实验场景状态。"""
+    """Experiment scenario state."""
     scenario: str
     description: str
     edge_load_multiplier: float = 1.0
@@ -170,7 +170,7 @@ class ScenarioState(BaseModel):
 
 
 class DatasetInfo(BaseModel):
-    """Trace 数据集信息。"""
+    """Trace dataset info."""
     name: str
     display_name: str
     description: str = ""
@@ -186,7 +186,7 @@ class DatasetInfo(BaseModel):
 
 
 class MLTrainResult(BaseModel):
-    """LATE-Learn 训练结果。"""
+    """LATE-Learn training result."""
     method: str = "LATE-Learn"
     status: str
     train_samples: int = 0

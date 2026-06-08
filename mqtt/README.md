@@ -1,27 +1,27 @@
-# MQTT 通信模块
+# MQTT Communication Module
 
-## Topic 设计
+## Topic Design
 
 ```
 smart_park/devices/{device_id}/tasks
 ```
 
-## 方案 A：轻量 MQTT（可选）
+## Option A: Lightweight MQTT (optional)
 
-1. 启动 broker：`python mqtt/broker.py`
-2. 设置环境变量：`export COMM_MODE=mqtt`
-3. 重启系统
+1. Start broker: `python mqtt/broker.py`
+2. Set environment variable: `export COMM_MODE=mqtt`
+3. Restart the system
 
-## 方案 B：HTTP Fallback（默认）
+## Option B: HTTP Fallback (default)
 
-本项目**默认使用 HTTP fallback**，无需安装 Mosquitto：
+This project **defaults to HTTP fallback** — no Mosquitto installation required:
 
 ```
 POST http://localhost:8000/api/tasks/submit
 ```
 
-请求体仍保留 `topic` 字段，体现 MQTT 架构设计。
+The request body still includes a `topic` field to reflect the MQTT architecture design.
 
-## 切换方式
+## Switching Modes
 
-在 `scripts/start_all.sh` 中修改 `COMM_MODE` 环境变量即可。
+Modify the `COMM_MODE` environment variable in `scripts/start_all.sh`.

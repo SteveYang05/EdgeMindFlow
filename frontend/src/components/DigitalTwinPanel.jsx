@@ -27,7 +27,7 @@ export default function DigitalTwinPanel({ twin }) {
     <div className="card">
       <div className="card-title">Digital Twin Smart Park</div>
       <p style={{ fontSize: '0.68rem', color: '#71767b', marginBottom: 10 }}>
-        IoT simulator + topology + scenario + metrics 构成智能园区数字孪生实验环境
+        IoT simulator + topology + scenario + metrics form the smart-campus digital twin lab
       </p>
       <div className="grid grid-2" style={{ gap: 8 }}>
         <div style={{ background: '#16181c', padding: 8, borderRadius: 8 }}>

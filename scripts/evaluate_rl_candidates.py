@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""评估 rl_candidates/ 下所有 LATE-RL 候选，并与 current_main 对比。"""
+"""Evaluate all LATE-RL candidates in rl_candidates/ and compare with current_main."""
 import csv
 import json
 import logging
@@ -38,7 +38,7 @@ def write_md(path: Path, result: dict) -> None:
     lines = [
         "# LATE-RL Candidate Evaluation",
         "",
-        f"生成时间: {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC",
+        f"Generated: {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC",
         "",
         f"- Episodes per scenario: {result.get('episodes', RL_EVAL_EPISODES)}",
         f"- Episode length: {result.get('episode_length', RL_EVAL_EPISODE_LENGTH)}",

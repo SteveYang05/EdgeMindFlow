@@ -1,3 +1,3 @@
-# Dashboard 配图
+# Dashboard Illustrations
 
-13 张策略/场景/AgentNet 示意图，与 `StrategyScenarioIllustration.jsx` 中文件名一一对应。
+13 strategy/scenario/AgentNet diagrams, mapped one-to-one to filenames in `StrategyScenarioIllustration.jsx`.

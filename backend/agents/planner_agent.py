@@ -1,4 +1,4 @@
-"""PlannerAgent — 根据 ParsedIntent 生成 AgentPlan."""
+"""PlannerAgent — generate AgentPlan from ParsedIntent."""
 import uuid
 from typing import Any, Dict, List
 
@@ -27,10 +27,10 @@ class PlannerAgent:
 
     def _recommend(self, parsed: ParsedIntent) -> tuple:
         if parsed.intent_type == "unknown" and not parsed.intent_types:
-            return None, None, "意图不明确，建议 dry_run 或补充描述，不执行危险操作。"
+            return None, None, "Intent unclear; recommend dry_run or more detail — no risky changes will be applied."
 
         if parsed.intent_type == "experiment_query":
-            return parsed.target_scenario or "normal", "dynamic", "查询当前系统状态与指标，不强制切换场景。"
+            return parsed.target_scenario or "normal", "dynamic", "Query current system state and metrics without forcing a scenario switch."
 
         scenario = parsed.target_scenario
         strategy = parsed.preferred_strategy or "dynamic"
@@ -40,27 +40,27 @@ class PlannerAgent:
         if "cloud_avoidance" in types or scenario == "cloud_delay":
             scenario = scenario or "cloud_delay"
             strategy = parsed.preferred_strategy or "learned_late"
-            rationale = "云链路劣化场景下，优先 LATE-Learn/LATE-Offload 规避 cloud 高时延。"
+            rationale = "Under cloud link degradation, prefer LATE-Learn/LATE-Offload to avoid high cloud latency."
         elif "emergency_protection" in types or scenario == "emergency":
             scenario = "emergency"
             strategy = parsed.preferred_strategy or "dynamic"
-            rationale = "紧急场景下 Safety Edge Reservation 保障 smoke/access 低时延。"
+            rationale = "In emergency mode, Safety Edge Reservation keeps smoke/access tasks low-latency."
         elif "edge_overload_mitigation" in types or scenario == "edge_overload":
             scenario = "edge_overload"
             strategy = "dynamic"
-            rationale = "边缘过载时分流非关键任务，安全关键任务保留 edge-first。"
+            rationale = "When edge is overloaded, offload non-critical tasks; safety-critical tasks stay edge-first."
         elif "qos_optimization" in types:
             scenario = scenario or "normal"
             strategy = parsed.preferred_strategy or "learned_late"
-            rationale = "QoS 优化优先使用 LATE-Learn oracle 映射。"
+            rationale = "For QoS optimization, prefer LATE-Learn oracle mapping."
         elif "latency_guarantee" in types:
             scenario = scenario or "cloud_delay"
             strategy = parsed.preferred_strategy or "dynamic"
-            rationale = "时延保障意图，场景自适应卸载。"
+            rationale = "Latency guarantee intent — scenario-adaptive offloading."
         else:
             scenario = scenario or "normal"
             strategy = strategy or "dynamic"
-            rationale = "默认使用 LATE-Offload 主策略。"
+            rationale = "Default to LATE-Offload as the primary strategy."
 
         if parsed.preferred_strategy:
             strategy = parsed.preferred_strategy
@@ -85,7 +85,7 @@ class PlannerAgent:
             actions.append({"tool": "set_strategy", "args": {"strategy": strategy}})
 
         if "emergency" in (parsed.intent_types or []) or scenario == "emergency":
-            if "smoke_alert" in parsed.target_task_types or "烟雾" in parsed.raw_text:
+            if "smoke_alert" in parsed.target_task_types or "烟雾" in parsed.raw_text or "smoke" in parsed.raw_text.lower():
                 actions.append({"tool": "trigger_smoke_alert", "args": {}})
 
         actions.append({"tool": "get_metrics", "args": {"scope": "recent_100"}})

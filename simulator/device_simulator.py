@@ -1,8 +1,8 @@
 """
-IoT 设备模拟器主程序。
+IoT device simulator main program.
 
-支持 HTTP fallback（默认）和 MQTT 两种通信方式。
-通过环境变量 COMM_MODE 和 TASK_INTERVAL_SEC 配置。
+Supports HTTP fallback (default) and MQTT communication.
+Configured via COMM_MODE and TASK_INTERVAL_SEC environment variables.
 """
 import json
 import logging
@@ -41,7 +41,7 @@ EMERGENCY_MODE = os.getenv("EMERGENCY_MODE", "false").lower() == "true"
 
 
 def submit_via_http(task: dict) -> bool:
-    """HTTP Fallback 提交任务。"""
+    """Submit task via HTTP Fallback."""
     try:
         with httpx.Client(timeout=10.0) as client:
             resp = client.post(f"{EDGE_URL}/api/tasks/submit", json=task)
@@ -63,7 +63,7 @@ def submit_via_http(task: dict) -> bool:
 
 
 def submit_via_mqtt(task: dict) -> bool:
-    """MQTT 发布任务。"""
+    """Publish task via MQTT."""
     try:
         import paho.mqtt.publish as publish
         topic = task["topic"]
@@ -90,7 +90,7 @@ def submit_task(task: dict) -> bool:
 
 
 def run_simulator():
-    """主循环：周期性为各设备生成并上报任务。"""
+    """Main loop: periodically generate and report tasks for each device."""
     logger.info("Device Simulator started | COMM_MODE=%s | interval=%.1fs",
                 COMM_MODE, TASK_INTERVAL_SEC)
     logger.info("Edge URL: %s", EDGE_URL)

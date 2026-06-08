@@ -1,4 +1,4 @@
-"""AgentNet Pydantic 数据模型."""
+"""AgentNet Pydantic data models."""
 from typing import Any, Dict, List, Literal, Optional
 
 from pydantic import BaseModel, Field

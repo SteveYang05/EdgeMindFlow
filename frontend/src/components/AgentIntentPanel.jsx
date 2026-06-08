@@ -7,11 +7,11 @@ import {
 import AgentWorkflow from './AgentWorkflow'
 
 const STATUS_LABEL = {
-  satisfied: { text: '意图已达成', cls: 'good' },
-  recovered: { text: '自愈后达成', cls: 'good' },
-  failed: { text: '未达成', cls: 'bad' },
+  satisfied: { text: 'Intent satisfied', cls: 'good' },
+  recovered: { text: 'Recovered & satisfied', cls: 'good' },
+  failed: { text: 'Not satisfied', cls: 'bad' },
   dry_run: { text: 'Dry Run', cls: '' },
-  partial: { text: '部分验证', cls: 'warn' },
+  partial: { text: 'Partial validation', cls: 'warn' },
 }
 
 export default function AgentIntentPanel({ onRefresh }) {
@@ -46,7 +46,7 @@ export default function AgentIntentPanel({ onRefresh }) {
       setResult(res)
       if (onRefresh && !dryRun) onRefresh()
     } catch (e) {
-      setError(e.response?.data?.detail || e.message || 'Agent API 调用失败')
+      setError(e.response?.data?.detail || e.message || 'Agent API call failed')
       setResult(null)
     } finally {
       setLoading(false)
@@ -62,7 +62,7 @@ export default function AgentIntentPanel({ onRefresh }) {
   return (
     <div className="card agent-panel">
       <div className="card-title">
-        AgentNet 网络意图驱动
+        AgentNet Network Intent
         {status && (
           <span style={{ fontSize: '0.68rem', color: '#1d9bf0' }}>
             {status.mode} · LLM {status.llm_enabled ? 'ON' : 'OFF'}
@@ -73,7 +73,7 @@ export default function AgentIntentPanel({ onRefresh }) {
       <textarea
         className="agent-intent-input"
         rows={3}
-        placeholder="输入自然语言网络意图，例如：云端链路变差时，优先保障烟雾告警任务在100ms内完成"
+        placeholder="Enter a natural-language network intent, e.g.: When cloud link degrades, prioritize smoke alerts under 100ms latency"
         value={intentText}
         onChange={e => setIntentText(e.target.value)}
       />
@@ -81,11 +81,11 @@ export default function AgentIntentPanel({ onRefresh }) {
       <div className="agent-options">
         <label>
           <input type="checkbox" checked={dryRun} onChange={e => setDryRun(e.target.checked)} />
-          dry_run（仅规划，不切换场景/策略）
+          dry_run (plan only, no scenario/strategy switch)
         </label>
         <label>
           <input type="checkbox" checked={autoRecover} onChange={e => setAutoRecover(e.target.checked)} />
-          auto_recover（验证失败时自愈）
+          auto_recover (self-heal on validation failure)
         </label>
       </div>
 
@@ -99,7 +99,7 @@ export default function AgentIntentPanel({ onRefresh }) {
 
       <div className="btn-group" style={{ marginTop: 8 }}>
         <button type="button" className="btn active" disabled={loading} onClick={handleSubmit}>
-          {loading ? '处理中…' : '提交意图'}
+          {loading ? 'Processing…' : 'Submit Intent'}
         </button>
       </div>
 
@@ -112,17 +112,17 @@ export default function AgentIntentPanel({ onRefresh }) {
           <div className="grid grid-2" style={{ marginTop: 12, gap: 12 }}>
             <div className="agent-block">
               <div className="agent-block-title">Parsed Intent</div>
-              <div>类型: {parsed?.intent_type}</div>
-              <div>任务: {(parsed?.target_task_types || []).join(', ') || '—'}</div>
-              <div>场景: {parsed?.target_scenario || plan?.recommended_scenario || '—'}</div>
-              <div>目标时延: {parsed?.target_latency_ms ? `${parsed.target_latency_ms}ms` : '—'}</div>
+              <div>Type: {parsed?.intent_type}</div>
+              <div>Tasks: {(parsed?.target_task_types || []).join(', ') || '—'}</div>
+              <div>Scenario: {parsed?.target_scenario || plan?.recommended_scenario || '—'}</div>
+              <div>Target latency: {parsed?.target_latency_ms ? `${parsed.target_latency_ms}ms` : '—'}</div>
             </div>
             <div className="agent-block">
               <div className="agent-block-title">Plan & Status</div>
-              <div>推荐场景: {plan?.recommended_scenario || '—'}</div>
-              <div>推荐策略: {plan?.recommended_strategy || '—'}</div>
+              <div>Recommended scenario: {plan?.recommended_scenario || '—'}</div>
+              <div>Recommended strategy: {plan?.recommended_strategy || '—'}</div>
               <div className={`stat-change ${statusInfo.cls}`}>
-                最终状态: {statusInfo.text}
+                Final status: {statusInfo.text}
               </div>
               <div style={{ fontSize: '0.72rem', marginTop: 6 }}>{plan?.rationale}</div>
             </div>

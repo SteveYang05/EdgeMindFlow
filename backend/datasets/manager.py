@@ -1,4 +1,4 @@
-"""数据集管理器 — 统一入口。"""
+"""Dataset manager — unified entry point."""
 import csv
 from functools import lru_cache
 from pathlib import Path
@@ -32,7 +32,7 @@ class DatasetManager:
         return download_dataset(name, self.traces_dir, force=force)
 
     def read_mec_tasks(self, limit: int = 1000) -> List[Dict[str, Any]]:
-        """读取 MEC trace 任务记录（供训练/回放）。"""
+        """Read MEC trace task records (for training/replay)."""
         status = self.get("mec_edge")
         path = Path(status.get("path", ""))
         if not path.exists():

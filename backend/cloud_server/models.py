@@ -1,4 +1,4 @@
-"""云端服务全局状态。"""
+"""Cloud service global state."""
 from backend.cloud_server.metrics import CloudMetricsCollector
 
 cloud_metrics = CloudMetricsCollector()

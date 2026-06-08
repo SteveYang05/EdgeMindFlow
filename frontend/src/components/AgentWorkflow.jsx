@@ -22,7 +22,7 @@ export default function AgentWorkflow({ trace = [] }) {
   if (!trace.length) {
     return (
       <p style={{ color: '#71767b', fontSize: '0.78rem' }}>
-        提交网络意图后，此处展示多智能体协同 workflow trace。
+        Submit a network intent to see the multi-agent workflow trace here.
       </p>
     )
   }

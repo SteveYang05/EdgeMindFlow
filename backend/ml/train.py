@@ -1,4 +1,4 @@
-"""LATE-Learn CPU 训练 — Oracle Cost Labeling + Teacher 兼容模式。"""
+"""LATE-Learn CPU training — Oracle Cost Labeling + Teacher-compatible mode."""
 import json
 import logging
 from datetime import datetime
@@ -63,7 +63,7 @@ def build_training_records(
     scenarios: Optional[List[str]] = None,
     label_source: Optional[str] = None,
 ) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
-    """从 MEC trace 构建带 oracle/teacher 标签的训练记录。"""
+    """Build training records with oracle/teacher labels from MEC trace."""
     label_source = (label_source or LATE_LEARN_LABEL_SOURCE or "oracle").lower()
     if label_source not in ("oracle", "teacher"):
         raise ValueError(f"Invalid label_source: {label_source}")
@@ -162,9 +162,9 @@ def _write_evaluation_md(metrics: Dict[str, Any], path: Path) -> None:
     lines = [
         "# LATE-Learn Regret Evaluation",
         "",
-        f"生成时间: {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC",
+        f"Generated: {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC",
         "",
-        "## 指标",
+        "## Metrics",
         "",
         f"- **label_source**: {metrics.get('label_source', 'N/A')}",
         f"- **oracle_agreement**: {metrics.get('oracle_agreement', 0)}",
@@ -174,10 +174,10 @@ def _write_evaluation_md(metrics: Dict[str, Any], path: Path) -> None:
         f"- **regret_vs_teacher**: {metrics.get('regret_vs_teacher')}",
         f"- **regret_vs_static_rule**: {metrics.get('regret_vs_static_rule')}",
         "",
-        "## 解释",
+        "## Explanation",
         "",
-        "Regret 越小，说明模型决策越接近 oracle 最优代价。",
-        "若 avg_regret 接近 0，说明 LATE-Learn 学到了接近 oracle 的卸载映射。",
+        "Lower regret means model decisions are closer to oracle optimal cost.",
+        "If avg_regret is near 0, LATE-Learn has learned an offloading mapping close to oracle.",
         "",
     ]
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -191,7 +191,7 @@ def train_late_learn(
     feature_variant: str = "full",
     save_model: bool = True,
 ) -> Dict[str, Any]:
-    """CPU 训练 RandomForest 并保存模型与评估报告。"""
+    """CPU-train RandomForest and save model and evaluation report."""
     output_path = output_path or LATE_LEARN_MODEL_PATH
     label_source = (label_source or LATE_LEARN_LABEL_SOURCE or "oracle").lower()
     if save_model:

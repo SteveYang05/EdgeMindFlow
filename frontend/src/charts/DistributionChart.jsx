@@ -10,9 +10,9 @@ export default function DistributionChart({ edgeCount, cloudCount, localCount })
       type: 'pie',
       radius: ['40%', '70%'],
       data: [
-        { value: edgeCount, name: '边缘', itemStyle: { color: '#1d9bf0' } },
-        { value: cloudCount, name: '云端', itemStyle: { color: '#9b59b6' } },
-        { value: localCount, name: '本地', itemStyle: { color: '#00ba7c' } },
+        { value: edgeCount, name: 'Edge', itemStyle: { color: '#1d9bf0' } },
+        { value: cloudCount, name: 'Cloud', itemStyle: { color: '#9b59b6' } },
+        { value: localCount, name: 'Local', itemStyle: { color: '#00ba7c' } },
       ],
       label: { color: '#e7e9ea' },
     }],

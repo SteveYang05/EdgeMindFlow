@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""LATE-Learn CPU 训练脚本 — Oracle Cost Labeling（默认）或 Teacher 模式。"""
+"""LATE-Learn CPU training script — Oracle Cost Labeling (default) or Teacher mode."""
 import os
 import sys
 from pathlib import Path

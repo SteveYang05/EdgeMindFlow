@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# AgentNet Layer 轻量测试 — 不跑 test_system.sh，不重跑正式实验
+# AgentNet Layer lightweight test — does not run test_system.sh or full experiments
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -26,7 +26,7 @@ else
 fi
 
 # 2. examples
-if curl_json "$EDGE/api/agent/examples" | grep -q '云端链路变差'; then
+if curl_json "$EDGE/api/agent/examples" | grep -q 'cloud link degrades'; then
   ok "GET /api/agent/examples"
 else
   fail "GET /api/agent/examples"
@@ -35,7 +35,7 @@ fi
 # 3. plan
 if curl_json -X POST "$EDGE/api/agent/plan" \
   -H 'Content-Type: application/json' \
-  -d '{"intent_text":"云端链路变差时，优先保障烟雾告警任务在100ms内完成","dry_run":true}' \
+  -d '{"intent_text":"When the cloud link degrades, prioritize smoke alert tasks to complete within 100ms","dry_run":true}' \
   | grep -q '"plan_id"'; then
   ok "POST /api/agent/plan"
 else
@@ -45,7 +45,7 @@ fi
 # 4. intent dry_run
 if curl_json -X POST "$EDGE/api/agent/intent" \
   -H 'Content-Type: application/json' \
-  -d '{"intent_text":"当前系统是否满足低时延和高 QoS 要求？","dry_run":true,"auto_recover":false}' \
+  -d '{"intent_text":"Does the current system meet low-latency and high QoS requirements?","dry_run":true,"auto_recover":false}' \
   | grep -q '"final_status":"dry_run"'; then
   ok "POST /api/agent/intent dry_run=true"
 else
@@ -55,7 +55,7 @@ fi
 # 5. intent execute simple switch
 if curl_json -X POST "$EDGE/api/agent/intent" \
   -H 'Content-Type: application/json' \
-  -d '{"intent_text":"进入紧急模式，优先保障门禁和烟雾告警","dry_run":false,"auto_recover":true}' \
+  -d '{"intent_text":"Enter emergency mode and prioritize access control and smoke alerts","dry_run":false,"auto_recover":true}' \
   | grep -q '"final_status"'; then
   ok "POST /api/agent/intent dry_run=false"
 else

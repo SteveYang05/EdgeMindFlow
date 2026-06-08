@@ -1,4 +1,4 @@
-"""自动化策略对比实验。"""
+"""Automated strategy comparison experiments."""
 import csv
 import json
 import time
@@ -51,13 +51,13 @@ def run_single_experiment(
     strategy: str,
     duration_sec: int,
 ) -> Dict[str, Any]:
-    """运行单组 scenario × strategy 实验。"""
-    print(f"  [实验] scenario={scenario} strategy={strategy} duration={duration_sec}s")
+    """Run a single scenario × strategy experiment."""
+    print(f"  [Experiment] scenario={scenario} strategy={strategy} duration={duration_sec}s")
 
     _post(client, f"/api/scenario/{scenario}")
     _post(client, f"/api/strategy/{strategy}")
 
-    # 记录系统事件
+    # Record system event
     db.insert_alert(
         task_id=f"exp_{experiment_id}",
         device_id="system",
@@ -104,19 +104,19 @@ def run_single_experiment(
 
 
 def run_full_experiment(duration_sec: int = None, quick: bool = False) -> List[Dict[str, Any]]:
-    """运行完整 4×7 实验矩阵（quick=True 时仅 normal 场景 + 全部 7 策略）。"""
+    """Run full 4×7 experiment matrix (quick=True: normal scenario only + all 7 strategies)."""
     duration = duration_sec or EXPERIMENT_DURATION_SEC
     scenarios = ["normal"] if quick else SCENARIOS
-    strategies = STRATEGIES  # quick 模式仍跑全部 7 种策略（仅 normal 场景）
+    strategies = STRATEGIES  # quick mode still runs all 7 strategies (normal scenario only)
     experiment_id = f"exp_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{uuid.uuid4().hex[:6]}"
 
     if not check_services():
         raise RuntimeError(
-            "Edge/Cloud Server 未运行。请先执行: bash scripts/start_all.sh"
+            "Edge/Cloud Server is not running. Run: bash scripts/start_all.sh"
         )
 
     print(f"========================================")
-    print(f" ComputerNet 自动化实验")
+    print(f" ComputerNet automated experiment")
     print(f" experiment_id: {experiment_id}")
     print(f" duration: {duration}s × {len(scenarios)} × {len(strategies)} = "
           f"{duration * len(scenarios) * len(strategies)}s total")
@@ -132,9 +132,9 @@ def run_full_experiment(duration_sec: int = None, quick: bool = False) -> List[D
                     )
                     results.append(record)
                 except Exception as e:
-                    print(f"  [错误] {scenario}/{strategy}: {e}")
+                    print(f"  [Error] {scenario}/{strategy}: {e}")
 
-    # 恢复默认
+    # Restore defaults
     try:
         with httpx.Client() as client:
             _post(client, "/api/scenario/normal")
@@ -147,7 +147,7 @@ def run_full_experiment(duration_sec: int = None, quick: bool = False) -> List[D
 
 
 def save_results(results: List[Dict[str, Any]], experiment_id: str) -> None:
-    """保存 CSV 和 JSON。"""
+    """Save CSV and JSON."""
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
     csv_path = RESULTS_DIR / "experiment_summary.csv"
     json_path = RESULTS_DIR / "experiment_summary.json"
@@ -168,6 +168,6 @@ def save_results(results: List[Dict[str, Any]], experiment_id: str) -> None:
     with open(json_path, "w", encoding="utf-8") as f:
         json.dump(payload, f, indent=2, ensure_ascii=False)
 
-    print(f"\n结果已保存:")
+    print(f"\nResults saved:")
     print(f"  {csv_path}")
     print(f"  {json_path}")

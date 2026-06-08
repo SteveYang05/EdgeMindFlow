@@ -1,12 +1,12 @@
-"""数据集注册表。"""
+"""Dataset registry."""
 from typing import Any, Dict, List
 
-# auto_download=True 的会在启动/POST download 时自动尝试
+# auto_download=True entries are attempted on startup / POST download
 DATASET_REGISTRY: Dict[str, Dict[str, Any]] = {
     "mec_edge": {
         "name": "mec_edge",
         "display_name": "Mobile Edge Computing Trace (MEC)",
-        "description": "边缘计算任务 trace（默认从公开 Mobile Edge Computing Dataset 下载并转换为项目 schema）",
+        "description": "Edge compute task trace (default: download from public Mobile Edge Computing Dataset and convert to project schema)",
         "auto_download": True,
         "size_class": "small",
         "format": "csv",
@@ -24,7 +24,7 @@ DATASET_REGISTRY: Dict[str, Dict[str, Any]] = {
     "eua": {
         "name": "eua",
         "display_name": "EUA Dataset (Edge User Allocation)",
-        "description": "边缘用户分配 trace，含用户位置与边缘节点映射",
+        "description": "Edge user allocation trace with user locations and edge node mapping",
         "auto_download": True,
         "size_class": "small",
         "format": "csv",
@@ -43,7 +43,7 @@ DATASET_REGISTRY: Dict[str, Dict[str, Any]] = {
     "google_cluster": {
         "name": "google_cluster",
         "display_name": "Google Cluster Trace",
-        "description": "Google 大规模集群 trace（仅文档与 API 注册，不默认下载）",
+        "description": "Google large-scale cluster trace (documentation and API registry only, not downloaded by default)",
         "auto_download": False,
         "size_class": "large",
         "format": "csv/trace",
@@ -52,12 +52,12 @@ DATASET_REGISTRY: Dict[str, Dict[str, Any]] = {
         "default_url": "https://github.com/google/cluster-data",
         "doc_url": "https://github.com/google/cluster-data/blob/master/ClusterData2011_2.md",
         "manual_only": True,
-        "note": "体积过大，请自行下载后放置于 data/traces/google_cluster/",
+        "note": "Too large — download manually and place in data/traces/google_cluster/",
     },
     "alibaba_cluster": {
         "name": "alibaba_cluster",
         "display_name": "Alibaba Cluster Trace",
-        "description": "阿里巴巴集群 trace（仅文档与 API 注册，不默认下载）",
+        "description": "Alibaba cluster trace (documentation and API registry only, not downloaded by default)",
         "auto_download": False,
         "size_class": "large",
         "format": "csv/trace",
@@ -66,7 +66,7 @@ DATASET_REGISTRY: Dict[str, Dict[str, Any]] = {
         "default_url": "https://github.com/alibaba/clusterdata",
         "doc_url": "https://github.com/alibaba/clusterdata",
         "manual_only": True,
-        "note": "体积过大，请自行下载后放置于 data/traces/alibaba_cluster/",
+        "note": "Too large — download manually and place in data/traces/alibaba_cluster/",
     },
 }
 

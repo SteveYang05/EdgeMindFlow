@@ -1,5 +1,5 @@
 #!/bin/bash
-# 演示前重置数据
+# Reset data before demo
 set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"

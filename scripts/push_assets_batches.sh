@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# 分批推送大文件到 GitHub，避免单次 upload 超时
+# Push large files to GitHub in batches to avoid single-upload timeouts
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"

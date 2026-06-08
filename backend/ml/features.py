@@ -1,4 +1,4 @@
-"""LATE-Learn 特征工程 — 支持消融 variant。"""
+"""LATE-Learn feature engineering — supports ablation variants."""
 from typing import Any, Dict, List, Optional
 
 import numpy as np
@@ -31,7 +31,7 @@ FEATURE_VARIANTS = {
     ],
 }
 
-# 向后兼容旧 8 维模型
+# Backward-compatible legacy 8-dim model
 FEATURE_NAMES = FEATURE_VARIANTS["no_trace"]
 
 

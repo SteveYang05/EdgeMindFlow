@@ -1,4 +1,4 @@
-"""LATE-RL 候选模型评估 — 按场景统计指标与综合评分。"""
+"""LATE-RL candidate model evaluation — per-scenario metrics and composite score."""
 import json
 import logging
 from datetime import datetime
@@ -25,7 +25,7 @@ CANDIDATE_PREFIX = "late_rl_candidate_"
 
 
 def compute_scenario_score(row: Dict[str, Any]) -> float:
-    """单场景综合评分 — emergency/edge_overload 权重更高。"""
+    """Per-scenario composite score — higher weight for emergency/edge_overload."""
     scenario = row["scenario"]
     high_lat_pen = max(0.0, row["avg_latency"] - 100.0) / 1000.0
     score = (
@@ -44,7 +44,7 @@ def compute_scenario_score(row: Dict[str, Any]) -> float:
 
 
 def compute_overall_score(scenario_rows: List[Dict[str, Any]]) -> float:
-    """跨场景加权总分。"""
+    """Cross-scenario weighted total score."""
     weights = {"emergency": 0.3, "edge_overload": 0.3, "normal": 0.2, "cloud_delay": 0.2}
     total = 0.0
     w_sum = 0.0
@@ -63,7 +63,7 @@ def evaluate_model_on_scenario(
     seed: int = None,
     reward_profile: str = "default",
 ) -> Dict[str, Any]:
-    """在固定场景下评估单个模型。"""
+    """Evaluate a single model under a fixed scenario."""
     episodes = episodes or RL_EVAL_EPISODES
     episode_length = episode_length or RL_EVAL_EPISODE_LENGTH
     seed = seed if seed is not None else RL_RANDOM_SEED
@@ -123,7 +123,7 @@ def evaluate_model_on_scenario(
 
 
 def discover_candidates(include_main: bool = True) -> List[Tuple[str, Path, Optional[Path]]]:
-    """返回 (candidate_name, model_path, metadata_path) 列表。"""
+    """Return list of (candidate_name, model_path, metadata_path)."""
     found: List[Tuple[str, Path, Optional[Path]]] = []
     RL_CANDIDATES_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -155,7 +155,7 @@ def evaluate_all_candidates(
     episode_length: int = None,
     seed: int = None,
 ) -> Dict[str, Any]:
-    """评估所有候选 + current_main baseline。"""
+    """Evaluate all candidates + current_main baseline."""
     episodes = episodes or RL_EVAL_EPISODES
     episode_length = episode_length or RL_EVAL_EPISODE_LENGTH
     seed = seed if seed is not None else RL_RANDOM_SEED
@@ -195,7 +195,7 @@ def evaluate_all_candidates(
 
 
 def _build_recommendations(by_candidate: Dict[str, List[Dict[str, Any]]]) -> Dict[str, Any]:
-    """生成最佳候选推荐及与 current_main 对比。"""
+    """Generate best candidate recommendation and comparison with current_main."""
     overall: Dict[str, float] = {}
     emergency: Dict[str, float] = {}
     edge_overload: Dict[str, float] = {}

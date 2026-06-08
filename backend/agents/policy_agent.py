@@ -1,4 +1,4 @@
-"""PolicyAgent — 策略/场景执行与决策记录."""
+"""PolicyAgent — strategy/scenario execution and decision logging."""
 from typing import Any, Dict, List
 
 from backend.agents.schemas import AgentPlan

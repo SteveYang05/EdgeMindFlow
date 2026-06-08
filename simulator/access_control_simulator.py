@@ -1,4 +1,4 @@
-"""门禁通行记录任务模拟器。"""
+"""Access control pass-record task simulator."""
 import sys, time, logging
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))

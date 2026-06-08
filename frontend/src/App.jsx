@@ -16,10 +16,10 @@ import AgentIntentPanel from './components/AgentIntentPanel'
 import StrategyScenarioIllustration from './components/StrategyScenarioIllustration'
 
 const SCENARIOS = [
-  { id: 'normal', label: '网络正常' },
-  { id: 'cloud_delay', label: '云端延迟↑' },
-  { id: 'edge_overload', label: '边缘过载' },
-  { id: 'emergency', label: '紧急告警' },
+  { id: 'normal', label: 'Normal' },
+  { id: 'cloud_delay', label: 'Cloud Delay↑' },
+  { id: 'edge_overload', label: 'Edge Overload' },
+  { id: 'emergency', label: 'Emergency' },
 ]
 
 const STRATEGIES = [
@@ -34,10 +34,10 @@ const STRATEGIES = [
 
 function StatusBadge({ status }) {
   const map = {
-    healthy: { cls: 'healthy', text: '网络正常' },
-    cloud_link_degraded: { cls: 'warning', text: '云端链路降级' },
-    edge_overloaded: { cls: 'warning', text: '边缘过载' },
-    emergency_active: { cls: 'danger', text: '紧急事件' },
+    healthy: { cls: 'healthy', text: 'Network Healthy' },
+    cloud_link_degraded: { cls: 'warning', text: 'Cloud Link Degraded' },
+    edge_overloaded: { cls: 'warning', text: 'Edge Overloaded' },
+    emergency_active: { cls: 'danger', text: 'Emergency Active' },
   }
   const s = map[status] || map.healthy
   return (
@@ -109,16 +109,15 @@ export default function App() {
     <div className="app">
       <header className="header">
         <div>
-          <h1>AgentNet-ComputerNet 智能园区系统</h1>
-          <p className="subtitle">网络意图驱动多智能体协同边缘任务卸载与低时延自优化（LATE + AgentNet）</p>
+          <h1>EdgeMindFlow Smart Campus System</h1>
+          <p className="subtitle">Network-intent-driven multi-agent edge offloading with low-latency self-optimization (LATE + AgentNet)</p>
         </div>
         <StatusBadge status={m.network_status} />
       </header>
 
-      {/* 数据范围 + Demo Mode */}
       <div className="grid grid-2" style={{ marginBottom: 16 }}>
         <div className="card">
-          <div className="card-title">Data View 数据范围</div>
+          <div className="card-title">Data View Scope</div>
           <select
             className="scope-select"
             value={dataScope}
@@ -132,7 +131,7 @@ export default function App() {
             <p style={{ fontSize: '0.72rem', color: '#ffad1f', marginTop: 8 }}>{m.scope_hint}</p>
           )}
           <p style={{ fontSize: '0.68rem', color: '#555', marginTop: 4 }}>
-            当前范围: {m.data_scope || dataScope} · 推荐 Recent 100 或 Latest Experiment
+            Current scope: {m.data_scope || dataScope} · Recommended: Recent 100 or Latest Experiment
           </p>
         </div>
         <DemoModePanel onRefresh={refresh} />
@@ -146,17 +145,16 @@ export default function App() {
         <DigitalTwinPanel twin={twinStatus} />
       </div>
 
-      {/* 总览卡片 */}
       <div className="grid grid-5" style={{ marginBottom: 16 }}>
         <div className="card">
-          <div className="card-title">平均任务时延</div>
+          <div className="card-title">Avg Task Latency</div>
           <div className="stat-value">{m.avg_latency_ms?.toFixed(1) || '0'}<span className="stat-unit">ms</span></div>
           <div className="stat-change">P95: {m.p95_latency_ms?.toFixed(1) || '0'} ms</div>
         </div>
         <div className="card">
-          <div className="card-title">任务总数</div>
+          <div className="card-title">Total Tasks</div>
           <div className="stat-value">{m.total_tasks || 0}</div>
-          <div className="stat-change good">成功率 {m.success_rate?.toFixed(1) || 100}%</div>
+          <div className="stat-change good">Success rate {m.success_rate?.toFixed(1) || 100}%</div>
         </div>
         <div className="card">
           <div className="card-title">QoS Satisfaction</div>
@@ -164,28 +162,27 @@ export default function App() {
           <div className="stat-change">Deadline + Urgent + Success</div>
         </div>
         <div className="card">
-          <div className="card-title">Deadline 违约率</div>
+          <div className="card-title">Deadline Violation Rate</div>
           <div className="stat-value">{(m.deadline_violation_rate || 0).toFixed(1)}<span className="stat-unit">%</span></div>
-          <div className="stat-change">紧急任务均延 {m.emergency_avg_latency_ms?.toFixed(0) || 0} ms</div>
+          <div className="stat-change">Emergency avg latency {m.emergency_avg_latency_ms?.toFixed(0) || 0} ms</div>
         </div>
         <div className="card">
-          <div className="card-title">告警事件</div>
+          <div className="card-title">Alerts</div>
           <div className="stat-value" style={{ color: m.alert_count > 0 ? '#f4212e' : '#e7e9ea' }}>
             {m.alert_count || 0}
           </div>
-          <div className="stat-change">策略: {m.current_strategy === 'dynamic' ? 'LATE-Offload' : (m.current_strategy || 'dynamic')}</div>
+          <div className="stat-change">Strategy: {m.current_strategy === 'dynamic' ? 'LATE-Offload' : (m.current_strategy || 'dynamic')}</div>
         </div>
       </div>
 
-      {/* 场景与策略控制 */}
       <div className="grid grid-2" style={{ marginBottom: 16 }}>
         <div className="card">
           <div className="card-title">
-            实验场景
+            Experiment Scenario
             <span style={{ color: '#1d9bf0' }}>{scenario?.scenario || m.current_scenario}</span>
           </div>
           <p style={{ fontSize: '0.78rem', color: '#71767b', marginBottom: 8 }}>
-            {scenario?.description || '网络正常，动态卸载'}
+            {scenario?.description || 'Normal network, dynamic offloading'}
           </p>
           <div className="btn-group">
             {SCENARIOS.map(s => (
@@ -198,7 +195,7 @@ export default function App() {
           </div>
         </div>
         <div className="card">
-          <div className="card-title">卸载策略</div>
+          <div className="card-title">Offloading Strategy</div>
           <div className="btn-group">
             {STRATEGIES.map(s => (
               <button
@@ -214,8 +211,8 @@ export default function App() {
             ))}
           </div>
           <p style={{ fontSize: '0.72rem', color: '#71767b', marginTop: 10 }}>
-            网络延迟: {edgeM.network_delay_ms?.toFixed(0) || 0} ms |
-            带宽占用: {edgeM.bandwidth_usage_mbps?.toFixed(1) || 0} Mbps
+            Network delay: {edgeM.network_delay_ms?.toFixed(0) || 0} ms |
+            Bandwidth usage: {edgeM.bandwidth_usage_mbps?.toFixed(1) || 0} Mbps
           </p>
           {mlStatus && (
             <div style={{ marginTop: 10, padding: 8, background: '#16181c', borderRadius: 8, fontSize: '0.68rem', color: '#aaa' }}>
@@ -250,9 +247,8 @@ export default function App() {
         />
       </div>
 
-      {/* 网络拓扑 */}
       <div className="card" style={{ marginBottom: 16 }}>
-        <div className="card-title">网络拓扑 & 任务流向</div>
+        <div className="card-title">Network Topology & Task Flow</div>
         <NetworkTopology topology={topology} metrics={{
           local: m.local_task_count,
           edge: m.edge_task_count,
@@ -260,23 +256,22 @@ export default function App() {
         }} />
       </div>
 
-      {/* 图表行 */}
       <div className="grid grid-2" style={{ marginBottom: 16 }}>
         <div className="card">
-          <div className="card-title">任务完成时延曲线</div>
+          <div className="card-title">Task Completion Latency</div>
           <div className="chart-container"><LatencyChart tasks={tasks} /></div>
         </div>
         <div className="card">
-          <div className="card-title">边缘 / 云端节点负载</div>
+          <div className="card-title">Edge / Cloud Node Load</div>
           <div className="chart-container"><LoadChart edgeMetrics={edgeM} cloudMetrics={cloudM} /></div>
         </div>
       </div>
 
       <div className="grid grid-3" style={{ marginBottom: 16 }}>
         <div className="card">
-          <div className="card-title">实时任务流 & 卸载决策</div>
+          <div className="card-title">Live Task Stream & Offload Decisions</div>
           <div className="task-list">
-            {loading && <p style={{ color: '#71767b' }}>加载中...</p>}
+            {loading && <p style={{ color: '#71767b' }}>Loading...</p>}
             {tasks.map(t => (
               <div key={t.task_id} className="task-item">
                 <div className="task-header">
@@ -289,22 +284,22 @@ export default function App() {
                 </div>
                 <div className="task-id">{t.task_id}</div>
                 <div>
-                  时延: <strong>{t.total_latency_ms?.toFixed(0)}</strong> ms
+                  Latency: <strong>{t.total_latency_ms?.toFixed(0)}</strong> ms
                   <span className={t.deadline_met ? 'deadline-ok' : ' deadline-violation'}>
-                    {t.deadline_met ? ' ✓' : ' ✗ 超 deadline'}
+                    {t.deadline_met ? ' ✓' : ' ✗ deadline missed'}
                   </span>
                 </div>
                 <div className="reason-text">{t.reason}</div>
               </div>
             ))}
             {!loading && tasks.length === 0 && (
-              <p style={{ color: '#71767b', padding: 20 }}>等待任务...请确认模拟器已启动</p>
+              <p style={{ color: '#71767b', padding: 20 }}>Waiting for tasks... ensure the simulator is running</p>
             )}
           </div>
         </div>
         <div>
           <div className="card" style={{ marginBottom: 16 }}>
-            <div className="card-title">任务分布</div>
+            <div className="card-title">Task Distribution</div>
             <div className="chart-container" style={{ height: 200 }}>
               <DistributionChart
                 edgeCount={m.edge_task_count}
@@ -314,15 +309,15 @@ export default function App() {
             </div>
           </div>
         <div className="card">
-          <div className="card-title">告警事件</div>
+          <div className="card-title">Alert Events</div>
           <div className="stat-change" style={{ marginBottom: 8 }}>
-            安全 {m.security_alert_count || 0} · 性能 {m.performance_warning_count || 0} · 系统 {m.system_event_count || 0}
+            Security {m.security_alert_count || 0} · Performance {m.performance_warning_count || 0} · System {m.system_event_count || 0}
           </div>
-          {alerts.length === 0 && <p style={{ color: '#71767b', fontSize: '0.8rem' }}>暂无告警</p>}
+          {alerts.length === 0 && <p style={{ color: '#71767b', fontSize: '0.8rem' }}>No alerts</p>}
           {['security', 'performance', 'system'].map(cat => {
             const items = alerts.filter(a => (a.alert_category || 'system') === cat)
             if (!items.length) return null
-            const labels = { security: '🔴 安全告警', performance: '🟡 性能告警', system: '🔵 系统事件' }
+            const labels = { security: '🔴 Security', performance: '🟡 Performance', system: '🔵 System' }
             return (
               <div key={cat} style={{ marginBottom: 10 }}>
                 <div style={{ fontSize: '0.72rem', color: '#71767b', marginBottom: 4 }}>{labels[cat]}</div>
@@ -344,14 +339,13 @@ export default function App() {
         </div>
       </div>
 
-      {/* 策略对比 & 设备 */}
       <div className="grid grid-2">
         <div className="card">
-          <div className="card-title">策略时延对比</div>
+          <div className="card-title">Strategy Latency Comparison</div>
           <div className="chart-container"><StrategyChart comparison={m.strategy_comparison} /></div>
         </div>
         <div className="card">
-          <div className="card-title">IoT 设备列表</div>
+          <div className="card-title">IoT Device List</div>
           <div className="device-grid">
             {devices.map(d => (
               <div key={d.device_id} className="device-card">

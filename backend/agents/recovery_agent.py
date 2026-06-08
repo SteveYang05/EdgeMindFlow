@@ -1,4 +1,4 @@
-"""RecoveryAgent — 验证失败时的自愈策略."""
+"""RecoveryAgent — self-healing strategy when validation fails."""
 from typing import Any, Dict, List
 
 from backend.agents.schemas import AgentPlan, ParsedIntent, ValidationResult

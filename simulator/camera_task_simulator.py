@@ -1,4 +1,4 @@
-"""摄像头图像识别任务模拟器。"""
+"""Camera image recognition task simulator."""
 import sys, time, logging
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))

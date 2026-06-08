@@ -1,8 +1,8 @@
 """
-轻量级 MQTT Broker 启动脚本（可选）。
+Lightweight MQTT Broker startup script (optional).
 
-使用 amqtt 库在 localhost:1883 启动 broker。
-若 amqtt 不可用，请使用 HTTP fallback（默认）。
+Start broker on localhost:1883 using the amqtt library.
+If amqtt is unavailable, use HTTP fallback (default).
 """
 import asyncio
 import logging
@@ -13,7 +13,7 @@ logger = logging.getLogger("mqtt_broker")
 
 
 async def start_amqtt_broker(host="0.0.0.0", port=1883):
-    """使用 amqtt 启动 MQTT broker。"""
+    """Start MQTT broker using amqtt."""
     try:
         from amqtt.broker import Broker
         config = {

@@ -32,7 +32,7 @@ export default function NetworkTopology({ topology, metrics }) {
   return (
     <div className="topo-container">
       <div className="topo-layer">
-        <div className="topo-layer-title">IoT 设备层</div>
+        <div className="topo-layer-title">IoT Device Layer</div>
         <div className="topo-devices">
           {devices.map(d => (
             <div
@@ -59,7 +59,7 @@ export default function NetworkTopology({ topology, metrics }) {
         <div className={`topo-node edge-node ${highlightEdge || highlightCloud ? 'highlight' : ''}`}>
           <div className="topo-node-title">⚡ Edge Server</div>
           <div className="topo-node-stat">CPU {edge.cpu_percent?.toFixed(0) || 0}%</div>
-          <div className="topo-node-stat">延迟 {edge.network_delay_ms?.toFixed(0) || 0} ms</div>
+          <div className="topo-node-stat">Delay {edge.network_delay_ms?.toFixed(0) || 0} ms</div>
           {highlightEdge && <span className="topo-badge edge">PROCESSING</span>}
         </div>
 
@@ -68,14 +68,14 @@ export default function NetworkTopology({ topology, metrics }) {
         <div className={`topo-node cloud-node ${highlightCloud ? 'highlight' : ''}`}>
           <div className="topo-node-title">☁️ Cloud Server</div>
           <div className="topo-node-stat">CPU {cloud.cpu_percent?.toFixed(0) || 0}%</div>
-          <div className="topo-node-stat">延迟 {cloud.network_delay_ms?.toFixed(0) || 0} ms</div>
+          <div className="topo-node-stat">Delay {cloud.network_delay_ms?.toFixed(0) || 0} ms</div>
           {highlightCloud && <span className="topo-badge cloud">PROCESSING</span>}
         </div>
       </div>
 
       {latest && (
         <div className="topo-latest">
-          最近任务: <strong>{latest.device_id}</strong> → <span className={`badge ${latest.decision}`}>{latest.decision}</span>
+          Latest task: <strong>{latest.device_id}</strong> → <span className={`badge ${latest.decision}`}>{latest.decision}</span>
           <span className="topo-latest-type"> ({latest.task_type})</span>
         </div>
       )}

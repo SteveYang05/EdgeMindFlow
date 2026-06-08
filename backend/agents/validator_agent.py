@@ -1,4 +1,4 @@
-"""ValidatorAgent — 意图闭环验证."""
+"""ValidatorAgent — closed-loop intent validation."""
 from typing import Any, Dict, List, Optional
 
 from backend.agents.schemas import ValidationResult
@@ -20,13 +20,13 @@ class ValidatorAgent:
                 return ValidationResult(
                     satisfied=False,
                     status="not_enough_data",
-                    summary="指标数据不足，请先运行模拟器产生任务流。",
+                    summary="Insufficient metrics — run the simulator to generate task traffic first.",
                     checks=[{"name": "data_available", "passed": False}],
                 )
             return ValidationResult(
                 satisfied=True,
                 status="ok",
-                summary="查询模式：已读取当前系统指标。",
+                summary="Query mode: current system metrics retrieved.",
                 checks=[{"name": "query", "passed": True}],
             )
 
@@ -34,7 +34,7 @@ class ValidatorAgent:
             return ValidationResult(
                 satisfied=False,
                 status="not_enough_data",
-                summary="验证失败：缺少 metrics_after 数据。",
+                summary="Validation failed: missing metrics_after data.",
                 checks=checks,
             )
 
@@ -101,9 +101,9 @@ class ValidatorAgent:
             return ValidationResult(
                 satisfied=False,
                 status="partial",
-                summary="策略已应用，但任务样本不足，无法完整验证时延指标。",
+                summary="Strategy applied, but insufficient task samples to fully validate latency metrics.",
                 checks=checks,
             )
 
-        summary = "意图验证通过。" if satisfied else "意图尚未完全达成。"
+        summary = "Intent validation passed." if satisfied else "Intent not fully satisfied yet."
         return ValidationResult(satisfied=satisfied, status="ok" if satisfied else "failed", summary=summary, checks=checks)

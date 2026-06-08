@@ -1,4 +1,4 @@
-"""LATE-RL 评估。"""
+"""LATE-RL evaluation."""
 import json
 import logging
 from datetime import datetime
@@ -90,7 +90,7 @@ def evaluate_late_rl(
     lines = [
         "# LATE-RL Evaluation",
         "",
-        f"生成时间: {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC",
+        f"Generated: {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC",
         "",
         f"- **avg_reward**: {result['avg_reward']}",
         f"- **avg_latency**: {result['avg_latency']} ms",

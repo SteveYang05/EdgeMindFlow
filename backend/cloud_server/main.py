@@ -1,11 +1,11 @@
 """
-Cloud Server - 云端任务处理服务
-端口: 8001
+Cloud Server - cloud task processing service
+Port: 8001
 """
 import sys
 from pathlib import Path
 
-# 添加项目根目录到 path
+# Add project root to path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from fastapi import FastAPI
@@ -18,7 +18,7 @@ from backend.common.schemas import CloudExecuteRequest, CloudExecuteResponse, No
 
 app = FastAPI(
     title="ComputerNet Cloud Server",
-    description="智能园区边缘计算系统 - 云端服务",
+    description="Smart campus edge computing system — cloud service",
     version="1.0.0",
 )
 

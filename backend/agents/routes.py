@@ -1,4 +1,4 @@
-"""AgentNet FastAPI 路由."""
+"""AgentNet FastAPI routes."""
 from fastapi import APIRouter
 
 from backend.agents.langchain_adapter import get_agent_mode, is_llm_enabled
@@ -15,11 +15,11 @@ router = APIRouter(tags=["AgentNet"])
 _orchestrator = AgentOrchestrator()
 
 EXAMPLE_INTENTS = [
-    "云端链路变差时，优先保障烟雾告警任务在100ms内完成",
-    "边缘节点过载时，把普通任务转到云端，但烟雾告警仍然走边缘",
-    "进入紧急模式，优先保障门禁和烟雾告警",
-    "当前系统是否满足低时延和高 QoS 要求？",
-    "请自动选择最适合当前网络状态的卸载策略",
+    "When the cloud link degrades, prioritize smoke alert tasks to complete within 100ms",
+    "When the edge node is overloaded, offload normal tasks to the cloud but keep smoke alerts on the edge",
+    "Enter emergency mode and prioritize access control and smoke alerts",
+    "Does the current system meet low-latency and high QoS requirements?",
+    "Automatically select the best offloading strategy for the current network state",
 ]
 
 

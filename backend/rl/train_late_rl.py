@@ -1,4 +1,4 @@
-"""LATE-RL 训练入口。"""
+"""LATE-RL training entry point."""
 import csv
 import json
 import logging
@@ -83,7 +83,7 @@ def train_late_rl_candidate(
     reward_profile: str = "default",
     seed: int = None,
 ) -> Dict[str, Any]:
-    """训练候选 LATE-RL 模型，保存至 rl_candidates/，不覆盖主模型。"""
+    """Train candidate LATE-RL model, save to rl_candidates/, do not overwrite main model."""
     seed = seed if seed is not None else RL_RANDOM_SEED
     RL_CANDIDATES_DIR.mkdir(parents=True, exist_ok=True)
 
